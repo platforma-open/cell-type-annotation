@@ -1,0 +1,54 @@
+ll := import("@platforma-sdk/workflow-tengo:ll")
+
+getColumns := func(blockId, inputSpec) {
+  return {
+    "axes": [
+      {
+        "column": "Sample",
+        "spec": inputSpec.axesSpec[0]
+      },
+      {
+        "column": "Cell Barcode",
+        "spec": inputSpec.axesSpec[1]
+      }
+      ],
+    "columns": [
+      {
+        "column": "Cell type",
+        "id": "cellType",
+        "allowNA": false,
+        "spec": {
+          "name": "pl7.app/rna-seq/cellType",
+          "valueType": "String",
+          "domain": {
+            "pl7.app/blockId": blockId
+          },
+          "annotations": {
+            "pl7.app/label": "Cell type"
+          }
+        }
+      },
+            {
+        "column": "Confidence score",
+        "id": "confidenceScore",
+        "allowNA": false,
+        "spec": {
+          "name": "pl7.app/rna-seq/cellTypeConfidenceScore",
+          "valueType": "Double",
+          "domain": {
+            "pl7.app/blockId": blockId
+          },
+          "annotations": {
+            "pl7.app/label": "Cell type confidence score"
+          }
+        }
+      }
+      ],
+    "storageFormat": "Binary",
+    "partitionKeyLength": 1
+  }
+}
+
+export ll.toStrict({
+	getColumns: getColumns
+})

@@ -49,7 +49,7 @@ const defaultOptions: GraphMakerProps['defaultOptions'] = [
     inputName: 'grouping',
     selectedSource: {
       kind: 'PColumn',
-      name: 'pl7.app/rna-seq/leidencluster',
+      name: 'pl7.app/rna-seq/cellType',
       valueType: 'String',
       axesSpec: [
         {

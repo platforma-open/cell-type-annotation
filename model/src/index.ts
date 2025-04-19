@@ -74,7 +74,7 @@ export const model = BlockModel.create()
 
     // enriching with leiden clusters data
     const upstream
-      = ctx.outputs?.resolve('leidenClusters')?.getPColumns();
+      = ctx.outputs?.resolve('labels')?.getPColumns();
 
     if (upstream === undefined) {
       return undefined;
@@ -97,7 +97,7 @@ export const model = BlockModel.create()
 
     // enriching with leiden clusters data
     const upstream
-      = ctx.outputs?.resolve('leidenClusters')?.getPColumns();
+      = ctx.outputs?.resolve('labels')?.getPColumns();
 
     if (upstream === undefined) {
       return undefined;
