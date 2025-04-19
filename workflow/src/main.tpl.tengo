@@ -1,0 +1,66 @@
+wf := import("@platforma-sdk/workflow-tengo:workflow")
+exec := import("@platforma-sdk/workflow-tengo:exec")
+assets:= import("@platforma-sdk/workflow-tengo:assets")
+xsv := import("@platforma-sdk/workflow-tengo:pframes.xsv")
+pframes := import("@platforma-sdk/workflow-tengo:pframes")
+pSpec := import("@platforma-sdk/workflow-tengo:pframes.spec")
+
+pfLeidenConv := import(":pf-leiden-conv")
+
+wf.prepare(func(args){
+	return {
+		resolvedInput: wf.resolve(args.countsRef, { errIfMissing: true })
+	}
+})
+
+wf.body(func(args) {
+
+	blockId := wf.blockId().getDataAsJson()
+	rawCounts := args.resolvedInput
+	inputSpec := rawCounts.spec 
+
+	// mode := args.mode
+	// cleanLabels := args.cleanLabels
+	mode := "best match"
+	cleanLabels := true
+
+	csvCounts := xsv.exportFrame([rawCounts], "csv", {})
+
+	leidenClustering := exec.builder().
+		software(assets.importSoftware("@platforma-open/milaboratories.cell-type-annotation.software:annotate-cell-types")).
+		addFile("rawCounts.csv", csvCounts).
+		addFile("celltypist_model.pkl", csvCelltypistModel).
+		addFile("geneMap.csv", csvGeneMap).
+		arg("rawCounts.csv").
+		arg("labels.csv").
+		arg("celltypist_model.pkl").
+		arg("--gene_map").arg("geneMap.csv").
+		arg("--mode").arg(string(mode)).
+		arg("--clean_labels").arg(string(cleanLabels)).
+		saveFile("labels.csv").
+		printErrStreamToStdout().
+		saveStdoutContent().
+		cache(24 * 60 * 60 * 1000).
+		run()
+
+	labelImportParams := pfLeidenConv.getColumns(blockId, inputSpec)
+	labelsPf := xsv.importFile(leidenClustering.getFile("labels.csv"), "csv", labelImportParams)
+
+
+	// Prepare exports
+	// @TODO to be updated exporting Pframe directly
+	exports := {
+		labels : {
+            spec: labelsPf["labels.spec"],
+            data: labelsPf["labels.data"]
+            }
+    }
+
+	return {
+		outputs: {
+			labels: pframes.exportFrame(labelsPf)
+		},
+		exports: exports
+	}
+})
+
