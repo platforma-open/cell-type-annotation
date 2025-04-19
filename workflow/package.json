@@ -17,6 +17,7 @@
     "@platforma-sdk/workflow-tengo": "catalog:",
     "@milaboratories/software-pframes-conv": "catalog:",
     "@platforma-open/milaboratories.software-small-binaries": "catalog:",
+    "@platforma-open/milaboratories.celltypist-assets": "catalog:",
     "@platforma-sdk/test": "catalog:",
     "vitest": "catalog:"
   }

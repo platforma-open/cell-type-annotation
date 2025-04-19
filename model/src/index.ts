@@ -20,6 +20,7 @@ export type BlockArgs = {
   mode: string;
   cleanLabels: boolean;
   title?: string;
+  model: string;
 };
 
 export const model = BlockModel.create()
@@ -27,6 +28,7 @@ export const model = BlockModel.create()
   .withArgs<BlockArgs>({
     cleanLabels: true,
     mode: 'best match',
+    model: 'human-healthy-immunepopulations',
   })
 
   .withUiState<UiState>({

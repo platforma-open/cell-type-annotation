@@ -5,6 +5,8 @@ xsv := import("@platforma-sdk/workflow-tengo:pframes.xsv")
 pframes := import("@platforma-sdk/workflow-tengo:pframes")
 pSpec := import("@platforma-sdk/workflow-tengo:pframes.spec")
 
+// models := import(":models")
+
 pfCellAnnotations := import(":pf-cell-annotations-conv")
 
 wf.prepare(func(args){
@@ -21,8 +23,8 @@ wf.body(func(args) {
 
 	mode := args.mode
 	cleanLabels := args.cleanLabels
-	// mode := "best match"
-	// cleanLabels := true
+
+	// modelAsset := models.getModelAsset(args.model)
 
 	csvCounts := xsv.exportFrame([rawCounts], "csv", {})
 
