@@ -17,15 +17,16 @@ export type UiState = {
 
 export type BlockArgs = {
   countsRef?: PlRef;
-  mode?: string;
-  cleanLabels?: boolean;
+  mode: string;
+  cleanLabels: boolean;
   title?: string;
 };
 
 export const model = BlockModel.create()
 
   .withArgs<BlockArgs>({
-
+    cleanLabels: true,
+    mode: 'best match',
   })
 
   .withUiState<UiState>({

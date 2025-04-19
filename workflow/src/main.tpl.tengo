@@ -19,10 +19,10 @@ wf.body(func(args) {
 	rawCounts := args.resolvedInput
 	inputSpec := rawCounts.spec 
 
-	// mode := args.mode
-	// cleanLabels := args.cleanLabels
-	mode := "best match"
-	cleanLabels := true
+	mode := args.mode
+	cleanLabels := args.cleanLabels
+	// mode := "best match"
+	// cleanLabels := true
 
 	csvCounts := xsv.exportFrame([rawCounts], "csv", {})
 
