@@ -3,8 +3,8 @@ packages:
   - workflow
   - model
   - ui
-  - test
   - block
+  - test
 
 catalog:
   "@platforma-sdk/model": ^1.23.0
