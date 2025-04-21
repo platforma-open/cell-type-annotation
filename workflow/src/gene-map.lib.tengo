@@ -1,93 +1,63 @@
 assets := import("@platforma-sdk/workflow-tengo:assets")
 ll := import("@platforma-sdk/workflow-tengo:ll")
 
-modelsNamesMap := {
-	"human-healthy-immunepopulations": "Human healthy ImmunePopulations",
-	"human-healthy-immunesubpopulations": "Human healthy ImmuneSubpopulations",
-	"human-healthy-skin": "Human healthy skin",
-	"human-healthy-vascular": "Human healthy vascular",
-	"human-healthy-prefrontalcortex": "Human healthy prefrontal cortex",
-	"human-healthy-middletemporalgyrus": "Human healthy middle temporal gyrus",
-	"human-healthy-hippocampus": "Human healthy hippocampus",
-	"human-healthy-breast": "Human healthy breast",
-	"human-healthy-lung": "Human healthy lung",
-	"human-healthy-heart": "Human healthy heart",
-	"human-healthy-liver": "Human healthy liver",
-	"human-healthy-endometrium": "Human healthy endometrium",
-	"human-healthy-pancreaticislet": "Human healthy pancreatic islet",
-	"human-disease-colorectalcancer": "Human disease colorectal cancer",
-	"human-disease-idiopaticpulmonaryfibrosis": "Human disease idiopatic pulmonary fibrosis",
-	"human-disease-covid19-blood": "Human disease COVID19 blood",
-	"human-disease-covid19-lungblood": "Human disease COVID19 lung blood",
-	"mouse-healthy-gut": "Mouse healthy gut",
-	"mouse-healthy-olfactorybulb": "Mouse healthy olfactory bulb",
-	"mouse-healthy-liver": "Mouse healthy liver",
-	"mouse-healthy-brain": "Mouse healthy brain"
+speciesNamesMap := {
+	"arabidopsis-thaliana": "arabidopsis_thaliana_gene_annotations.csv",
+	"bos-taurus": "bos_taurus_gene_annotations.csv",
+	"caenorhabditis-elegans": "caenorhabditis_elegans_gene_annotations.csv",
+	"danio-rerio": "danio_rerio_gene_annotations.csv",
+	"drosophila-melanogaster": "drosophila_melanogaster_gene_annotations.csv",
+	"gallus-gallus": "gallus_gallus_gene_annotations.csv",
+	"homo-sapiens": "homo_sapiens_gene_annotations.csv",
+	"mus-musculus": "mus_musculus_gene_annotations.csv",
+	"rattus-norvegicus": "rattus_norvegicus_gene_annotations.csv",
+	"saccharomyces-cerevisiae": "saccharomyces_cerevisiae_gene_annotations.csv",
+	"sus-scrofa": "sus_scrofa_gene_annotations.csv"
 }
 
-getModelName := func(model){
-	name := modelsNamesMap[model]
+getAssetName := func(species){
+	name := speciesNamesMap[species]
 
 	if is_undefined(name) {
-		return model
+		return species
 	} else {
 		return name
 	}
 }
 
-getModelAsset := func(model) {
-	immunepopulationsAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-immunepopulations")
-	immunesubpopulationsAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-immunesubpopulations")
-	skinAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-skin")
-	vascularAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-vascular")
-	prefrontalcortexAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-prefrontalcortex")
-	middletemporalgyrusAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-middletemporalgyrus")
-	hippocampusAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-hippocampus")
-	breastAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-breast")
-	lungAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-lung")
-	heartAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-heart")
-	liverAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-liver")
-	endometriumAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-endometrium")
-	pancreasIsletAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-healthy-pancreaticislet")
-	colorectalcancerAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-disease-colorectalcancer")
-	idiopaticpulmonaryfibrosisAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-disease-idiopaticpulmonaryfibrosis")
-	covid19BloodAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-disease-covid19-blood")
-	covid19LungbloodAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:human-disease-covid19-lungblood")
-	gutMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:mouse-healthy-gut")
-	olfactorybulbMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:mouse-healthy-olfactorybulb")
-	liverMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:mouse-healthy-liver")
-	brainMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets:mouse-healthy-brain")
+getGeneAsset := func(species) {
+	arabidopsisThalianaAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:arabidopsis-thaliana")
+	bosTaurusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:bos-taurus")
+	caenorhabditisElegansAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:caenorhabditis-elegans")
+	danioRerioAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:danio-rerio")
+	drosophilaMelanogasterAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:drosophila-melanogaster")
+	gallusGallusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:gallus-gallus")
+	homoSapiensAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:homo-sapiens")
+	musMusculusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:mus-musculus")
+	rattusNorvegicusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:rattus-norvegicus")
+	saccharomycesCerevisiaeAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:saccharomyces-cerevisiae")
+	susScrofaAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:sus-scrofa")
 
-	ModelAssetsMap := ll.toStrict({
-		"human-healthy-immunepopulations": immunepopulationsAsset,
-		"human-healthy-immunesubpopulations": immunepopulationsAsset,
-		"human-healthy-skin": skinAsset,
-		"human-healthy-vascular": vascularAsset,
-		"human-healthy-prefrontalcortex": prefrontalcortexAsset,
-		"human-healthy-middletemporalgyrus": middletemporalgyrusAsset,
-		"human-healthy-hippocampus": hippocampusAsset,
-		"human-healthy-breast": breastAsset,
-		"human-healthy-lung": lungAsset,
-		"human-healthy-heart": heartAsset,
-		"human-healthy-liver": liverAsset,
-		"human-healthy-endometrium": endometriumAsset,
-		"human-healthy-pancreaticislet": pancreasIsletAsset,
-		"human-disease-colorectalcancer": colorectalcancerAsset,
-		"human-disease-idiopaticpulmonaryfibrosis": idiopaticpulmonaryfibrosisAsset,
-		"human-disease-covid19-blood": covid19BloodAsset,
-		"human-disease-covid19-lungblood": covid19LungbloodAsset,
-		"mouse-healthy-gut": gutMouseAsset,
-		"mouse-healthy-olfactorybulb": olfactorybulbMouseAsset,
-		"mouse-healthy-liver": liverMouseAsset,
-		"mouse-healthy-brain": brainMouseAsset
+	GeneAssetsMap := ll.toStrict({
+		"arabidopsis-thaliana": arabidopsisThalianaAsset,
+		"bos-taurus": bosTaurusAsset,
+		"caenorhabditis-elegans": caenorhabditisElegansAsset,
+		"danio-rerio": danioRerioAsset,
+		"drosophila-melanogaster": drosophilaMelanogasterAsset,
+		"gallus-gallus": gallusGallusAsset,
+		"homo-sapiens": homoSapiensAsset,
+		"mus-musculus": musMusculusAsset,
+		"rattus-norvegicus": rattusNorvegicusAsset,
+		"saccharomyces-cerevisiae": saccharomycesCerevisiaeAsset,
+		"sus-scrofa": susScrofaAsset
 	})
 
-	modelAsset := ModelAssetsMap[model]
+	geneAsset := GeneAssetsMap[species]
 
-	return modelAsset
+	return geneAsset
 }
 
 export ll.toStrict({
-	getModelAsset: getModelAsset,
-	getModelName: getModelName
+	getGeneAsset: getGeneAsset,
+	getAssetName: getAssetName
 })
