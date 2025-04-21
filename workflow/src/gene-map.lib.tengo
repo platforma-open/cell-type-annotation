@@ -1,0 +1,63 @@
+assets := import("@platforma-sdk/workflow-tengo:assets")
+ll := import("@platforma-sdk/workflow-tengo:ll")
+
+speciesNamesMap := {
+	"arabidopsis-thaliana": "arabidopsis_thaliana_gene_annotations.csv",
+	"bos-taurus": "bos_taurus_gene_annotations.csv",
+	"caenorhabditis-elegans": "caenorhabditis_elegans_gene_annotations.csv",
+	"danio-rerio": "danio_rerio_gene_annotations.csv",
+	"drosophila-melanogaster": "drosophila_melanogaster_gene_annotations.csv",
+	"gallus-gallus": "gallus_gallus_gene_annotations.csv",
+	"homo-sapiens": "homo_sapiens_gene_annotations.csv",
+	"mus-musculus": "mus_musculus_gene_annotations.csv",
+	"rattus-norvegicus": "rattus_norvegicus_gene_annotations.csv",
+	"saccharomyces-cerevisiae": "saccharomyces_cerevisiae_gene_annotations.csv",
+	"sus-scrofa": "sus_scrofa_gene_annotations.csv"
+}
+
+getAssetName := func(species){
+	name := speciesNamesMap[species]
+
+	if is_undefined(name) {
+		return species
+	} else {
+		return name
+	}
+}
+
+getGeneAsset := func(species) {
+	arabidopsisThalianaAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:arabidopsis-thaliana")
+	bosTaurusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:bos-taurus")
+	caenorhabditisElegansAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:caenorhabditis-elegans")
+	danioRerioAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:danio-rerio")
+	drosophilaMelanogasterAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:drosophila-melanogaster")
+	gallusGallusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:gallus-gallus")
+	homoSapiensAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:homo-sapiens")
+	musMusculusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:mus-musculus")
+	rattusNorvegicusAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:rattus-norvegicus")
+	saccharomycesCerevisiaeAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:saccharomyces-cerevisiae")
+	susScrofaAsset := assets.importAsset("@platforma-open/milaboratories.gene-annotations-assets:sus-scrofa")
+
+	GeneAssetsMap := ll.toStrict({
+		"arabidopsis-thaliana": arabidopsisThalianaAsset,
+		"bos-taurus": bosTaurusAsset,
+		"caenorhabditis-elegans": caenorhabditisElegansAsset,
+		"danio-rerio": danioRerioAsset,
+		"drosophila-melanogaster": drosophilaMelanogasterAsset,
+		"gallus-gallus": gallusGallusAsset,
+		"homo-sapiens": homoSapiensAsset,
+		"mus-musculus": musMusculusAsset,
+		"rattus-norvegicus": rattusNorvegicusAsset,
+		"saccharomyces-cerevisiae": saccharomycesCerevisiaeAsset,
+		"sus-scrofa": susScrofaAsset
+	})
+
+	geneAsset := GeneAssetsMap[species]
+
+	return geneAsset
+}
+
+export ll.toStrict({
+	getGeneAsset: getGeneAsset,
+	getAssetName: getAssetName
+})
