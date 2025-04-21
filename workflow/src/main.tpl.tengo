@@ -5,7 +5,7 @@ xsv := import("@platforma-sdk/workflow-tengo:pframes.xsv")
 pframes := import("@platforma-sdk/workflow-tengo:pframes")
 pSpec := import("@platforma-sdk/workflow-tengo:pframes.spec")
 
-// models := import(":models")
+models := import(":models")
 // geneMap := import(":gene-map")
 
 pfCellAnnotations := import(":pf-cell-annotations-conv")
@@ -27,7 +27,9 @@ wf.body(func(args) {
 	mode := args.mode
 	cleanLabels := args.cleanLabels
 
-	// modelAsset := models.getModelAsset(args.model)
+	modelAsset := models.getModelAsset(args.model)
+	modelName := models.getModelName(args.model)
+
 	// geneAsset := geneMap.getGeneAsset(species)
 
 	csvCounts := xsv.exportFrame([rawCounts], "csv", {})
@@ -35,12 +37,12 @@ wf.body(func(args) {
 	cellTypeAnnotation := exec.builder().
 		software(assets.importSoftware("@platforma-open/milaboratories.cell-type-annotation.software:annotate-cell-types")).
 		addFile("rawCounts.csv", csvCounts).
-		// addFile("celltypist_model.pkl", csvCelltypistModel).
-		// addFile("geneMap.csv", csvGeneMap).
+		addAsset(modelAsset, ".", string(modelName)).
+		// addAsset(geneAsset, "geneMap.csv").
 		arg("rawCounts.csv").
 		arg("labels.csv").
-		// arg("celltypist_model.pkl").
-		arg("/Users/aiturbide/Blocks/cell-type-annotation/assets/Mouse_Whole_Brain.pkl").
+		arg(string(modelName)).
+		// arg("/Users/aiturbide/Blocks/cell-type-annotation/assets/Mouse_Whole_Brain.pkl").
 		// arg("--gene_map").arg("geneMap.csv").
 		arg("--gene_map").arg("/Users/aiturbide/Blocks/cell-type-annotation/assets/mus_musculus_gene_annotations.csv").
 		arg("--mode").arg(string(mode)).
