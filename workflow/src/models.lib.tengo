@@ -1,94 +1,94 @@
-// assets := import("@platforma-sdk/workflow-tengo:assets")
-// ll := import("@platforma-sdk/workflow-tengo:ll")
+assets := import("@platforma-sdk/workflow-tengo:assets")
+ll := import("@platforma-sdk/workflow-tengo:ll")
 
-// modelsNamesMap := {
-// 	"human-healthy-immunepopulations": "Human healthy ImmunePopulations",
-// 	"human-healthy-immunesubpopulations": "Human healthy ImmuneSubpopulations",
-// 	"human-healthy-skin": "Human healthy skin",
-// 	"human-healthy-vascular": "Human healthy vascular",
-// 	"human-healthy-prefrontalcortex": "Human healthy prefrontal cortex",
-// 	"human-healthy-middletemporalgyrus": "Human healthy middle temporal gyrus",
-// 	"human-healthy-hippocampus": "Human healthy hippocampus",
-// 	"human-healthy-breast": "Human healthy breast",
-// 	"human-healthy-lung": "Human healthy lung",
-// 	"human-healthy-heart": "Human healthy heart",
-// 	"human-healthy-liver": "Human healthy liver",
-// 	"human-healthy-endometrium": "Human healthy endometrium",
-// 	"human-healthy-pancreaticislet": "Human healthy pancreatic islet",
-// 	"human-disease-colorectalcancer": "Human disease colorectal cancer",
-// 	"human-disease-idiopaticpulmonaryfibrosis": "Human disease idiopatic pulmonary fibrosis",
-// 	"human-disease-covid19-blood": "Human disease COVID19 blood",
-// 	"human-disease-covid19-lungblood": "Human disease COVID19 lung blood",
-// 	"mouse-healthy-gut": "Mouse healthy gut",
-// 	"mouse-healthy-olfactorybulb": "Mouse healthy olfactory bulb",
-// 	"mouse-healthy-liver": "Mouse healthy liver",
-// 	"mouse-healthy-brain": "Mouse healthy brain"
-// }
+modelsNamesMap := {
+	"human-healthy-immunepopulations": "Human healthy ImmunePopulations",
+	"human-healthy-immunesubpopulations": "Human healthy ImmuneSubpopulations",
+	"human-healthy-skin": "Human healthy skin",
+	"human-healthy-vascular": "Human healthy vascular",
+	"human-healthy-prefrontalcortex": "Human healthy prefrontal cortex",
+	"human-healthy-middletemporalgyrus": "Human healthy middle temporal gyrus",
+	"human-healthy-hippocampus": "Human healthy hippocampus",
+	"human-healthy-breast": "Human healthy breast",
+	"human-healthy-lung": "Human healthy lung",
+	"human-healthy-heart": "Human healthy heart",
+	"human-healthy-liver": "Human healthy liver",
+	"human-healthy-endometrium": "Human healthy endometrium",
+	"human-healthy-pancreaticislet": "Human healthy pancreatic islet",
+	"human-disease-colorectalcancer": "Human disease colorectal cancer",
+	"human-disease-idiopaticpulmonaryfibrosis": "Human disease idiopatic pulmonary fibrosis",
+	"human-disease-covid19-blood": "Human disease COVID19 blood",
+	"human-disease-covid19-lungblood": "Human disease COVID19 lung blood",
+	"mouse-healthy-gut": "Mouse healthy gut",
+	"mouse-healthy-olfactorybulb": "Mouse healthy olfactory bulb",
+	"mouse-healthy-liver": "Mouse healthy liver",
+	"mouse-healthy-brain": "Mouse healthy brain"
+}
 
-// getModelName := func(model){
-// 	name := modelsNamesMap[model]
+getModelName := func(model){
+	name := modelsNamesMap[model]
 
-// 	if is_undefined(name) {
-// 		return model
-// 	} else {
-// 		return name
-// 	}
-// }
+	if is_undefined(name) {
+		return model
+	} else {
+		return name
+	}
+}
 
-// getModelAsset := func(model) {
-// 	immunepopulationsAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations")
-// 	immunesubpopulationsAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations")
-// 	skinAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-skin")
-// 	vascularAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular")
-// 	prefrontalcortexAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex")
-// 	middletemporalgyrusAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus")
-// 	hippocampusAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus")
-// 	breastAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-breast")
-// 	lungAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-lung")
-// 	heartAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-heart")
-// 	liverAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-liver")
-// 	endometriumAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium")
-// 	pancreasIsletAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet")
-// 	colorectalcancerAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer")
-// 	idiopaticpulmonaryfibrosisAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis")
-// 	covid19BloodAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood")
-// 	covid19LungbloodAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood")
-// 	gutMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut")
-// 	olfactorybulbMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb")
-// 	liverMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver")
-// 	brainMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain")
+getModelAsset := func(model) {
+	immunepopulationsAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations")
+	immunesubpopulationsAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations")
+	skinAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-skin")
+	vascularAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular")
+	prefrontalcortexAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex")
+	middletemporalgyrusAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus")
+	hippocampusAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus")
+	breastAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-breast")
+	lungAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-lung")
+	heartAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-heart")
+	liverAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-liver")
+	endometriumAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium")
+	pancreasIsletAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet")
+	colorectalcancerAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer")
+	idiopaticpulmonaryfibrosisAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis")
+	covid19BloodAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood")
+	covid19LungbloodAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood")
+	gutMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut")
+	olfactorybulbMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb")
+	liverMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver")
+	brainMouseAsset := assets.importAsset("@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain")
 
-// 	ModelAssetsMap := ll.toStrict({
-// 		"human-healthy-immunepopulations": immunepopulationsAsset,
-// 		"human-healthy-immunesubpopulations": immunepopulationsAsset,
-// 		"human-healthy-skin": skinAsset,
-// 		"human-healthy-vascular": vascularAsset,
-// 		"human-healthy-prefrontalcortex": prefrontalcortexAsset,
-// 		"human-healthy-middletemporalgyrus": middletemporalgyrusAsset,
-// 		"human-healthy-hippocampus": hippocampusAsset,
-// 		"human-healthy-breast": breastAsset,
-// 		"human-healthy-lung": lungAsset,
-// 		"human-healthy-heart": heartAsset,
-// 		"human-healthy-liver": liverAsset,
-// 		"human-healthy-endometrium": endometriumAsset,
-// 		"human-healthy-pancreaticislet": pancreasIsletAsset,
-// 		"human-disease-colorectalcancer": colorectalcancerAsset,
-// 		"human-disease-idiopaticpulmonaryfibrosis": idiopaticpulmonaryfibrosisAsset,
-// 		"human-disease-covid19-blood": covid19BloodAsset,
-// 		"human-disease-covid19-lungblood": covid19LungbloodAsset,
-// 		"mouse-healthy-gut": gutMouseAsset,
-// 		"mouse-healthy-olfactorybulb": olfactorybulbMouseAsset,
-// 		"mouse-healthy-liver": liverMouseAsset,
-// 		"mouse-healthy-brain": brainMouseAsset
-// 	})
+	ModelAssetsMap := ll.toStrict({
+		"human-healthy-immunepopulations": immunepopulationsAsset,
+		"human-healthy-immunesubpopulations": immunepopulationsAsset,
+		"human-healthy-skin": skinAsset,
+		"human-healthy-vascular": vascularAsset,
+		"human-healthy-prefrontalcortex": prefrontalcortexAsset,
+		"human-healthy-middletemporalgyrus": middletemporalgyrusAsset,
+		"human-healthy-hippocampus": hippocampusAsset,
+		"human-healthy-breast": breastAsset,
+		"human-healthy-lung": lungAsset,
+		"human-healthy-heart": heartAsset,
+		"human-healthy-liver": liverAsset,
+		"human-healthy-endometrium": endometriumAsset,
+		"human-healthy-pancreaticislet": pancreasIsletAsset,
+		"human-disease-colorectalcancer": colorectalcancerAsset,
+		"human-disease-idiopaticpulmonaryfibrosis": idiopaticpulmonaryfibrosisAsset,
+		"human-disease-covid19-blood": covid19BloodAsset,
+		"human-disease-covid19-lungblood": covid19LungbloodAsset,
+		"mouse-healthy-gut": gutMouseAsset,
+		"mouse-healthy-olfactorybulb": olfactorybulbMouseAsset,
+		"mouse-healthy-liver": liverMouseAsset,
+		"mouse-healthy-brain": brainMouseAsset
+	})
 
-// 	modelAsset := ModelAssetsMap[model]
+	modelAsset := ModelAssetsMap[model]
 
-// 	return modelAsset
+	return modelAsset
 
-// }
+}
 
-// export ll.toStrict({
-// 	getModelAsset: getModelAsset,
-// 	getModelName: getModelName
-// })
+export ll.toStrict({
+	getModelAsset: getModelAsset,
+	getModelName: getModelName
+})

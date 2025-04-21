@@ -6,6 +6,7 @@ pframes := import("@platforma-sdk/workflow-tengo:pframes")
 pSpec := import("@platforma-sdk/workflow-tengo:pframes.spec")
 
 // models := import(":models")
+// geneMap := import(":gene-map")
 
 pfCellAnnotations := import(":pf-cell-annotations-conv")
 
@@ -19,12 +20,15 @@ wf.body(func(args) {
 
 	blockId := wf.blockId().getDataAsJson()
 	rawCounts := args.resolvedInput
-	inputSpec := rawCounts.spec 
+	inputSpec := rawCounts.spec
+
+	species := inputSpec.domain["pl7.app/species"]
 
 	mode := args.mode
 	cleanLabels := args.cleanLabels
 
 	// modelAsset := models.getModelAsset(args.model)
+	// geneAsset := geneMap.getGeneAsset(species)
 
 	csvCounts := xsv.exportFrame([rawCounts], "csv", {})
 
