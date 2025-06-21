@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import '@milaboratories/graph-maker/styles';
-import { PlBlockPage, PlDropdownRef, PlBtnGroup, PlCheckbox, PlRow, PlDropdown } from '@platforma-sdk/ui-vue';
+import { PlBlockPage, PlBtnGroup, PlDropdown, PlDropdownRef } from '@platforma-sdk/ui-vue';
 import { useApp } from '../app';
-import type { PlRef } from '@platforma-sdk/model';
-import { plRefsEqual } from '@platforma-sdk/model';
+
+import type { GraphMakerProps } from '@milaboratories/graph-maker';
+import { GraphMaker } from '@milaboratories/graph-maker';
+import { plRefsEqual, type PlRef } from '@platforma-sdk/model';
+import { ref } from 'vue';
 
 const app = useApp();
+const settingsOpen = ref(true);
 
 function setInput(inputRef?: PlRef) {
   app.model.args.countsRef = inputRef;
   if (inputRef)
-    app.model.args.title = app.model.outputs.countsOptions?.find((o) => plRefsEqual(o.ref, inputRef))?.label;
+    app.model.args.title = app.model.outputs.countsOptions?.find((o: { ref: PlRef; label: string }) => plRefsEqual(o.ref, inputRef))?.label;
   else
     app.model.args.title = undefined;
 }
@@ -44,26 +48,121 @@ const shortOptions = [
   { text: 'Majority voting', value: 'majority voting' },
 ];
 
+const defaultOptions: GraphMakerProps['defaultOptions'] = [
+  {
+    inputName: 'x',
+    selectedSource: {
+      kind: 'PColumn',
+      name: 'pl7.app/rna-seq/umap1',
+      valueType: 'Double',
+      axesSpec: [
+        {
+          name: 'pl7.app/sampleId',
+          type: 'String',
+        },
+        {
+          name: 'pl7.app/cellId',
+          type: 'String',
+        },
+      ],
+    },
+  },
+  {
+    inputName: 'y',
+    selectedSource: {
+      kind: 'PColumn',
+      name: 'pl7.app/rna-seq/umap2',
+      valueType: 'Double',
+      axesSpec: [
+        {
+          name: 'pl7.app/sampleId',
+          type: 'String',
+        },
+        {
+          name: 'pl7.app/cellId',
+          type: 'String',
+        },
+      ],
+    },
+  },
+  {
+    inputName: 'grouping',
+    selectedSource: {
+      kind: 'PColumn',
+      name: 'pl7.app/rna-seq/cellType',
+      valueType: 'String',
+      axesSpec: [
+        {
+          name: 'pl7.app/sampleId',
+          type: 'String',
+        },
+        {
+          name: 'pl7.app/cellId',
+          type: 'String',
+        },
+      ],
+    },
+  },
+];
+
 </script>
 
 <template>
   <PlBlockPage>
-    <template #title>Settings</template>
-    <PlDropdownRef
-      v-model="app.model.args.countsRef" :options="app.model.outputs.countsOptions"
-      :style="{ width: '320px' }"
-      label="Select dataset"
-      clearable @update:model-value="setInput"
-    />
-    <PlDropdown v-model="app.model.args.model" :style="{ width: '320px' }" :options="modelOptions" label="Select model" />
-    <PlBtnGroup
-      v-model="app.model.args.mode"
-      :style="{ width: '320px' }"
-      label="Annotation mode"
-      :options="shortOptions"
-    />
-    <PlRow>
-      <PlCheckbox v-model="app.model.args.cleanLabels">Clean labels</PlCheckbox>
-    </PlRow>
+    <GraphMaker
+      v-model="app.model.ui.graphStateUMAP"
+      chartType="scatterplot-umap"
+      :p-frame="app.model.outputs.UMAPPf"
+      :default-options="defaultOptions"
+      @run="settingsOpen = false"
+    >
+      <template v-if="settingsOpen" #settingsSlot>
+        <PlDropdownRef
+          v-model="app.model.args.countsRef"
+          :options="app.model.outputs.countsOptions"
+          :style="{ width: '320px' }"
+          label="Select dataset"
+          clearable
+          required
+          @update:model-value="setInput"
+        />
+        <PlDropdown
+          v-model="app.model.args.model"
+          :style="{ width: '320px' }"
+          :options="modelOptions"
+          label="Select model"
+        >
+          <template #tooltip>
+            <div>
+              <strong>CellTypist Model Selection</strong><br/>
+              Choose a pre-trained CellTypist model for cell type annotation. The model contains learned gene expression patterns for different cell types.<br/><br/>
+              <strong>Model types:</strong><br/>
+              • <strong>Human models:</strong> Immune, brain regions, organs, and disease-specific models<br/>
+              • <strong>Mouse models:</strong> Brain, gut, liver, and olfactory bulb models<br/>
+              • <strong>Disease models:</strong> Cancer, fibrosis, and COVID-19 specific models<br/><br/>
+            </div>
+          </template>
+        </PlDropdown>
+        <PlBtnGroup
+          v-model="app.model.args.mode"
+          :style="{ width: '320px' }"
+          label="Annotation mode"
+          :options="shortOptions"
+        >
+          <template #tooltip>
+            <div>
+              <strong>Annotation Mode</strong><br/>
+              Controls the CellTypist annotation strategy for assigning cell types.<br/><br/>
+              <strong>Best match:</strong> Assigns the cell type with the highest confidence score. Faster and suitable for most datasets.<br/><br/>
+              <strong>Majority voting:</strong> Uses ensemble prediction from multiple models for more robust annotation. Slower but more accurate for complex tissues.<br/><br/>
+              <strong>Recommendation:</strong> Use "Best match" for most datasets, "Majority voting" for complex tissues or when accuracy is critical.
+            </div>
+          </template>
+        </PlBtnGroup>
+        <!-- <PlRow>
+          <PlCheckbox v-model="app.model.args.cleanLabels">Clean labels</PlCheckbox>
+        </PlRow> -->
+      </template>
+    </GraphMaker>
   </PlBlockPage>
 </template>

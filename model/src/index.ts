@@ -18,7 +18,7 @@ export type UiState = {
 export type BlockArgs = {
   countsRef?: PlRef;
   mode: string;
-  cleanLabels: boolean;
+  // cleanLabels: boolean;
   title?: string;
   model: string;
 };
@@ -26,7 +26,7 @@ export type BlockArgs = {
 export const model = BlockModel.create()
 
   .withArgs<BlockArgs>({
-    cleanLabels: true,
+    // cleanLabels: true,
     mode: 'best match',
     model: 'human-healthy-immunepopulations',
   })
@@ -35,12 +35,15 @@ export const model = BlockModel.create()
     graphStateUMAP: {
       title: 'UMAP',
       template: 'dots',
+      currentTab: 'settings',
     },
     graphStateTSNE: {
       title: 'tSNE',
       template: 'dots',
     },
   })
+
+  .argsValid((ctx) => ctx.args.countsRef !== undefined)
 
   .output('countsOptions', (ctx) =>
     ctx.resultPool.getOptions((spec) => isPColumnSpec(spec)
@@ -112,8 +115,7 @@ export const model = BlockModel.create()
   .output('isRunning', (ctx) => ctx.outputs?.getIsReadyOrError() === false)
 
   .sections((_ctx) => ([
-    { type: 'link', href: '/', label: 'Main' },
-    { type: 'link', href: '/umap', label: 'UMAP' },
+    { type: 'link', href: '/', label: 'UMAP' },
     { type: 'link', href: '/tsne', label: 'tSNE' },
   ]))
 

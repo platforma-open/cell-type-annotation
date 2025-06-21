@@ -25,7 +25,7 @@ wf.body(func(args) {
 	species := inputSpec.domain["pl7.app/species"]
 
 	mode := args.mode
-	cleanLabels := args.cleanLabels
+	// cleanLabels := args.cleanLabels
 
 	modelAsset := models.getModelAsset(args.model)
 	modelName := models.getModelName(args.model)
@@ -45,7 +45,8 @@ wf.body(func(args) {
 		arg("model/" + string(modelName)).
 		arg("--gene_map").arg("geneAnnotation/" + string(geneAssetName)).
 		arg("--mode").arg(string(mode)).
-		arg("--clean_labels").arg(string(cleanLabels)).
+		// arg("--clean_labels").arg(string(cleanLabels)).
+		arg("--clean_labels").arg("true").
 		saveFile("labels.csv").
 		printErrStreamToStdout().
 		saveStdoutContent().
@@ -53,20 +54,26 @@ wf.body(func(args) {
 		run()
 
 	labelImportParams := pfCellAnnotations.getColumns(blockId, inputSpec)
-	labelsPf := xsv.importFile(cellTypeAnnotation.getFile("labels.csv"), "csv", labelImportParams)
+	labelsPf := xsv.importFile(cellTypeAnnotation.getFile("labels.csv"), "csv", labelImportParams, {splitDataAndSpec: true})
 
-	exports := {
-		labels : {
-            spec: labelsPf["cellType.spec"],
-            data: labelsPf["cellType.data"]
-            }
-    }
+	trace := pSpec.makeTrace(inputSpec,
+		{type: "milaboratories.cell-type-annotation", id: blockId, importance: 40, label: "Cell Type Annotation "}
+	)
+
+	// Build cell type annotations pFrame with trace injection
+	labelsOutputPf := pframes.pFrameBuilder()
+	for k, v in labelsPf {
+		labelsOutputPf.add(k, trace.inject(v.spec), v.data)
+	}
+	labelsOutputPf = labelsOutputPf.build()
 
 	return {
 		outputs: {
-			labels: pframes.exportFrame(labelsPf)
+			labels: pframes.exportFrame(labelsOutputPf)
 		},
-		exports: exports
+		exports: {
+			pf: labelsOutputPf
+		}
 	}
 })
 

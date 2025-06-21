@@ -8,13 +8,13 @@ packages:
 
 catalog:
   "@platforma-sdk/model": ^1.23.0
-  "@platforma-sdk/ui-vue": ^1.23.0
+  "@platforma-sdk/ui-vue": ^1.34.15
   "@platforma-sdk/workflow-tengo": ^2.16.0
   "@platforma-sdk/block-tools": ^2.5.21
   "@platforma-sdk/test": ^1.23.0
   "@platforma-sdk/tengo-builder": ^1.19.2
   "@platforma-sdk/package-builder": ^2.15.4
-  "@milaboratories/graph-maker": ^1.1.57
+  "@milaboratories/graph-maker": ^1.1.116
   '@platforma-sdk/eslint-config': ^1.0.1
 
   '@milaboratories/software-pframes-conv': ^2.1.18
