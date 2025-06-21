@@ -25,7 +25,7 @@ wf.body(func(args) {
 	species := inputSpec.domain["pl7.app/species"]
 
 	mode := args.mode
-	cleanLabels := args.cleanLabels
+	// cleanLabels := args.cleanLabels
 
 	modelAsset := models.getModelAsset(args.model)
 	modelName := models.getModelName(args.model)
@@ -45,7 +45,8 @@ wf.body(func(args) {
 		arg("model/" + string(modelName)).
 		arg("--gene_map").arg("geneAnnotation/" + string(geneAssetName)).
 		arg("--mode").arg(string(mode)).
-		arg("--clean_labels").arg(string(cleanLabels)).
+		// arg("--clean_labels").arg(string(cleanLabels)).
+		arg("--clean_labels").arg("true").
 		saveFile("labels.csv").
 		printErrStreamToStdout().
 		saveStdoutContent().
