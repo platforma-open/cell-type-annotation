@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation
 
+## 1.2.1
+
+### Patch Changes
+
+- @platforma-open/milaboratories.cell-type-annotation.workflow@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes
