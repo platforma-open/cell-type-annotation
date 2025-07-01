@@ -22,8 +22,8 @@ catalogs:
       specifier: ^1.0.0
       version: 1.0.0
     '@platforma-open/milaboratories.runenv-python-3':
-      specifier: ^1.1.7
-      version: 1.1.10
+      specifier: ^1.1.16
+      version: 1.1.16
     '@platforma-open/milaboratories.software-small-binaries':
       specifier: ^1.15.19
       version: 1.15.19
@@ -135,7 +135,7 @@ importers:
     devDependencies:
       '@platforma-open/milaboratories.runenv-python-3':
         specifier: 'catalog:'
-        version: 1.1.10
+        version: 1.1.16
       '@platforma-sdk/package-builder':
         specifier: 'catalog:'
         version: 2.15.6
@@ -1297,8 +1297,8 @@ packages:
   '@platforma-open/milaboratories.gene-annotations.sus-scrofa@1.0.0':
     resolution: {integrity: sha512-zhpodWHKEXAyrRsauD9J4NJD4Gg54XZliCT7161slBKKyByLeJwOGM85Fk7TtwVzXsIcbM5vt4RO1UEpKlziwA==}
 
-  '@platforma-open/milaboratories.runenv-python-3@1.1.10':
-    resolution: {integrity: sha512-6HR0eUGXrUhH/QYoN5/DvZ61ZSmi2rCafo277Sg6C5nXRc0vH8XZiylJhmxleaIo5I5S5SLiRAO2sI4lVsXnxg==}
+  '@platforma-open/milaboratories.runenv-python-3@1.1.16':
+    resolution: {integrity: sha512-A46M7cK1uVW4itLjXX9nodZm97ETcDBDQPQpBsPmu+Wjy8wlyHxUUH/v8KvtW45gNcW+yNO0LvzqE0u4GL86Jg==}
 
   '@platforma-open/milaboratories.software-small-binaries.guided-command@1.0.4':
     resolution: {integrity: sha512-LD8XQDnR+L9oRD7JXE0VWGmv1/0cm+J71flrwBUWeIbuaenPC8Nsza8oy7JjLJ8AX+bm8XAyyJALuqBBqkL95Q==}
@@ -6865,7 +6865,7 @@ snapshots:
 
   '@platforma-open/milaboratories.gene-annotations.sus-scrofa@1.0.0': {}
 
-  '@platforma-open/milaboratories.runenv-python-3@1.1.10': {}
+  '@platforma-open/milaboratories.runenv-python-3@1.1.16': {}
 
   '@platforma-open/milaboratories.software-small-binaries.guided-command@1.0.4': {}
 
