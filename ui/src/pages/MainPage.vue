@@ -3,7 +3,7 @@ import '@milaboratories/graph-maker/styles';
 import { PlBlockPage, PlBtnGroup, PlDropdown, PlDropdownRef } from '@platforma-sdk/ui-vue';
 import { useApp } from '../app';
 
-import type { GraphMakerProps } from '@milaboratories/graph-maker';
+import type { PredefinedGraphOption } from '@milaboratories/graph-maker';
 import { GraphMaker } from '@milaboratories/graph-maker';
 import { plRefsEqual, type PlRef } from '@platforma-sdk/model';
 import { ref } from 'vue';
@@ -48,7 +48,7 @@ const shortOptions = [
   { text: 'Majority voting', value: 'majority voting' },
 ];
 
-const defaultOptions: GraphMakerProps['defaultOptions'] = [
+const defaultOptions: PredefinedGraphOption<'scatterplot-umap'>[] = [
   {
     inputName: 'x',
     selectedSource: {
