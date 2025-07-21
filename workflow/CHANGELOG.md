@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.workflow
 
+## 1.3.0
+
+### Minor Changes
+
+- df770e4: SDK packages update
+
 ## 1.2.1
 
 ### Patch Changes
