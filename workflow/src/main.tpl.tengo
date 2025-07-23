@@ -56,8 +56,11 @@ wf.body(func(args) {
 	labelImportParams := pfCellAnnotations.getColumns(blockId, inputSpec)
 	labelsPf := xsv.importFile(cellTypeAnnotation.getFile("labels.csv"), "csv", labelImportParams, {splitDataAndSpec: true})
 
+	// Create informative label with relevant cell type annotation parameters
+	traceLabel := "Cell Type Annotation (" + args.model + ", mode:" + mode + ")"
+	
 	trace := pSpec.makeTrace(inputSpec,
-		{type: "milaboratories.cell-type-annotation", id: blockId, importance: 40, label: "Cell Type Annotation "}
+		{type: "milaboratories.cell-type-annotation", id: blockId, importance: 35, label: traceLabel}
 	)
 
 	// Build cell type annotations pFrame with trace injection
