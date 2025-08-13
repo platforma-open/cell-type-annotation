@@ -12,9 +12,18 @@ def load_data_long_format(file_path, gene_map_path=None):
     """
     print("🔹 Loading data...")
     df = pd.read_csv(file_path)
+
+    # Normalize minimal expected headers
+    df.columns = [c.strip() for c in df.columns]
+    if "Cell Barcode" not in df.columns and "Cell ID" in df.columns:
+        df = df.rename(columns={"Cell ID": "Cell Barcode"})
+    if "Cell Barcode" not in df.columns and "CellId" in df.columns:
+        df = df.rename(columns={"CellId": "Cell Barcode"})
+
     required_cols = {"Sample", "Cell Barcode", "Ensembl Id", "Raw gene expression"}
     if not required_cols.issubset(df.columns):
-        raise ValueError(f"Input file must contain columns: {required_cols}")
+        missing = list(required_cols - set(df.columns))
+        raise ValueError(f"Input file must contain columns: {required_cols}. Missing: {missing}. Found: {list(df.columns)}")
 
     # Map Ensembl IDs to gene symbols if provided
     if gene_map_path:
