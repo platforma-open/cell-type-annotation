@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import '@milaboratories/graph-maker/styles';
-import { PlBlockPage, PlBtnGroup, PlDropdown, PlDropdownRef } from '@platforma-sdk/ui-vue';
+import { PlBlockPage, PlBtnGroup, PlDropdown, PlDropdownRef, PlTabs } from '@platforma-sdk/ui-vue';
 import { useApp } from '../app';
 
 import type { PredefinedGraphOption } from '@milaboratories/graph-maker';
 import { GraphMaker } from '@milaboratories/graph-maker';
-import { plRefsEqual, type PlRef } from '@platforma-sdk/model';
-import { ref } from 'vue';
+import type { PColumnIdAndSpec, PlRef } from '@platforma-sdk/model';
+import { plRefsEqual } from '@platforma-sdk/model';
+import { computed, reactive } from 'vue';
 
 const app = useApp();
-const settingsOpen = ref(true);
+
+const data = reactive({
+  currentTab: 'umap',
+});
+
+const tabOptions = [
+  { label: 'UMAP', value: 'umap' },
+  { label: 't-SNE', value: 'tsne' },
+];
 
 function setInput(inputRef?: PlRef) {
   app.model.args.countsRef = inputRef;
@@ -18,6 +27,78 @@ function setInput(inputRef?: PlRef) {
   else
     app.model.args.title = undefined;
 }
+
+function getIndex(name: string, pcols: PColumnIdAndSpec[]): number {
+  return pcols.findIndex((p) => (p.spec.name === name
+  ));
+}
+
+/* Function to create default options according to the selected tab */
+function createDefaultOptions(
+  pcols: PColumnIdAndSpec[] | undefined,
+  coord1Name: string,
+  coord2Name: string,
+): PredefinedGraphOption<'scatterplot-umap'>[] | undefined {
+  if (!pcols || pcols.length === 0)
+    return undefined;
+
+  const coord1Index = getIndex(coord1Name, pcols);
+  const coord2Index = getIndex(coord2Name, pcols);
+  const cellTypeIndex = getIndex('pl7.app/rna-seq/cellType', pcols);
+
+  if (coord1Index === -1 || coord2Index === -1)
+    return undefined;
+
+  const defaults: PredefinedGraphOption<'scatterplot-umap'>[] = [
+    {
+      inputName: 'x',
+      selectedSource: pcols[coord1Index].spec,
+    },
+    {
+      inputName: 'y',
+      selectedSource: pcols[coord2Index].spec,
+    },
+    {
+      inputName: 'grouping',
+      selectedSource: pcols[cellTypeIndex].spec,
+    },
+  ];
+
+  return defaults;
+}
+
+const defaultOptions = computed((): PredefinedGraphOption<'scatterplot-umap'>[] | undefined => {
+  if (data.currentTab === 'umap') {
+    return createDefaultOptions(
+      app.model.outputs.plotPcols,
+      'pl7.app/rna-seq/umap1',
+      'pl7.app/rna-seq/umap2',
+    );
+  }
+  if (data.currentTab === 'tsne') {
+    return createDefaultOptions(
+      app.model.outputs.plotPcols,
+      'pl7.app/rna-seq/tsne1',
+      'pl7.app/rna-seq/tsne2',
+    );
+  }
+  return undefined;
+});
+
+/* Modify graph state, pframe and default options based on the selected tab */
+const graphState = computed({
+  get: () => data.currentTab === 'umap' ? app.model.ui.graphStateUMAP : app.model.ui.graphStateTSNE,
+  set: (value) => {
+    if (data.currentTab === 'umap')
+      app.model.ui.graphStateUMAP = value;
+    else
+      app.model.ui.graphStateTSNE = value;
+  },
+});
+
+const pFrame = computed(() => data.currentTab === 'umap' ? app.model.outputs.UMAPPf : app.model.outputs.tSNEPf);
+
+/* Use both currentTab and pFrame in :key to force re-render the graph when either args (which changes the pFrame) or the tab changes */
 
 const modelOptions = [
   { text: 'Human healthy immune populations', value: 'human-healthy-immunepopulations' },
@@ -48,75 +129,21 @@ const shortOptions = [
   { text: 'Majority voting', value: 'majority voting' },
 ];
 
-const defaultOptions: PredefinedGraphOption<'scatterplot-umap'>[] = [
-  {
-    inputName: 'x',
-    selectedSource: {
-      kind: 'PColumn',
-      name: 'pl7.app/rna-seq/umap1',
-      valueType: 'Double',
-      axesSpec: [
-        {
-          name: 'pl7.app/sampleId',
-          type: 'String',
-        },
-        {
-          name: 'pl7.app/cellId',
-          type: 'String',
-        },
-      ],
-    },
-  },
-  {
-    inputName: 'y',
-    selectedSource: {
-      kind: 'PColumn',
-      name: 'pl7.app/rna-seq/umap2',
-      valueType: 'Double',
-      axesSpec: [
-        {
-          name: 'pl7.app/sampleId',
-          type: 'String',
-        },
-        {
-          name: 'pl7.app/cellId',
-          type: 'String',
-        },
-      ],
-    },
-  },
-  {
-    inputName: 'grouping',
-    selectedSource: {
-      kind: 'PColumn',
-      name: 'pl7.app/rna-seq/cellType',
-      valueType: 'String',
-      axesSpec: [
-        {
-          name: 'pl7.app/sampleId',
-          type: 'String',
-        },
-        {
-          name: 'pl7.app/cellId',
-          type: 'String',
-        },
-      ],
-    },
-  },
-];
-
 </script>
 
 <template>
   <PlBlockPage>
     <GraphMaker
-      v-model="app.model.ui.graphStateUMAP"
+      :key="`${data.currentTab}-${pFrame}`"
+      v-model="graphState"
       chartType="scatterplot-umap"
-      :p-frame="app.model.outputs.UMAPPf"
+      :p-frame="pFrame"
       :default-options="defaultOptions"
-      @run="settingsOpen = false"
     >
-      <template v-if="settingsOpen" #settingsSlot>
+      <template #titleLineSlot>
+        <PlTabs v-model="data.currentTab" :options="tabOptions" :style="{ display: 'flex', justifyContent: 'flex-end' }"/>
+      </template>
+      <template #settingsSlot>
         <PlDropdownRef
           v-model="app.model.args.countsRef"
           :options="app.model.outputs.countsOptions"

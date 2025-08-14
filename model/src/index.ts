@@ -1,6 +1,7 @@
 import type { GraphMakerState } from '@milaboratories/graph-maker';
 import type {
   InferOutputsType,
+  PColumnIdAndSpec,
   PFrameHandle,
   PlRef } from '@platforma-sdk/model';
 import {
@@ -40,6 +41,7 @@ export const model = BlockModel.create()
     graphStateTSNE: {
       title: 'tSNE',
       template: 'dots',
+      currentTab: null,
     },
   })
 
@@ -112,11 +114,38 @@ export const model = BlockModel.create()
     return ctx.createPFrame([...pCols, ...upstream]);
   })
 
+  .output('plotPcols', (ctx) => {
+    const pCols
+    = ctx.resultPool
+      .getData()
+      .entries.map((c) => c.obj)
+      .filter(isPColumn)
+      .filter((col) => {
+        return ((col.spec.name.slice(0, -1) === 'pl7.app/rna-seq/tsne'
+          || col.spec.name.slice(0, -1) === 'pl7.app/rna-seq/umap'));
+      });
+
+    // enriching with cell type annotation data
+    const upstream
+    = ctx.outputs?.resolve('labels')?.getPColumns();
+
+    if (upstream === undefined) {
+      return undefined;
+    }
+
+    return [...pCols, ...upstream].map(
+      (c) =>
+        ({
+          columnId: c.id,
+          spec: c.spec,
+        } satisfies PColumnIdAndSpec),
+    );
+  })
+
   .output('isRunning', (ctx) => ctx.outputs?.getIsReadyOrError() === false)
 
   .sections((_ctx) => ([
-    { type: 'link', href: '/', label: 'UMAP' },
-    { type: 'link', href: '/tsne', label: 'tSNE' },
+    { type: 'link', href: '/', label: 'Main' },
   ]))
 
   .title((ctx) =>
