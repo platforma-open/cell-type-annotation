@@ -13,7 +13,6 @@ import {
 export type UiState = {
   graphStateUMAP: GraphMakerState;
   graphStateTSNE: GraphMakerState;
-  anchorColumn?: PlRef;
 };
 
 export type BlockArgs = {
@@ -53,21 +52,6 @@ export const model = BlockModel.create()
     , { includeNativeLabel: true, addLabelAsSuffix: true }),
   )
 
-  .output('anchorSpec', (ctx) => {
-    // return the Reference of the p-column selected as input dataset in Settings
-    if (!ctx.uiState?.anchorColumn) return undefined;
-
-    // Get the specs of that selected p-column
-    const anchorColumn = ctx.resultPool.getPColumnByRef(ctx.uiState?.anchorColumn);
-    const anchorSpec = anchorColumn?.spec;
-    if (!anchorSpec) {
-      console.error('Anchor spec is undefined or is not PColumnSpec', anchorSpec);
-      return undefined;
-    }
-
-    return anchorSpec;
-  })
-
   .output('UMAPPf', (ctx): PFrameHandle | undefined => {
     const pCols
       = ctx.resultPool
@@ -80,7 +64,7 @@ export const model = BlockModel.create()
             || col.spec.name === 'pl7.app/rna-seq/umap3';
         });
 
-    // enriching with leiden clusters data
+    // enriching with cell type annotation data
     const upstream
       = ctx.outputs?.resolve('labels')?.getPColumns();
 
@@ -103,7 +87,7 @@ export const model = BlockModel.create()
             || col.spec.name === 'pl7.app/rna-seq/tsne3';
         });
 
-    // enriching with leiden clusters data
+    // enriching with cell type annotation data
     const upstream
       = ctx.outputs?.resolve('labels')?.getPColumns();
 
