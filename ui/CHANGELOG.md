@@ -1,5 +1,16 @@
 # @platforma-open/milaboratories.cell-type-annotation.ui
 
+## 1.4.0
+
+### Minor Changes
+
+- 274899c: Migrate to PlTabs to switch between UMAP and tSNE
+
+### Patch Changes
+
+- Updated dependencies [274899c]
+  - @platforma-open/milaboratories.cell-type-annotation.model@1.3.0
+
 ## 1.3.0
 
 ### Minor Changes
