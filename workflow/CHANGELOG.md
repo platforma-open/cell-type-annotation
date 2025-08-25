@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.workflow
 
+## 1.5.0
+
+### Minor Changes
+
+- 2dbb109: Add batch support
+
 ## 1.4.1
 
 ### Patch Changes
