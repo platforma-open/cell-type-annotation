@@ -33,10 +33,16 @@ wf.body(func(args) {
 	geneAsset := geneMap.getGeneAsset(species)
 	geneAssetName := geneMap.getAssetName(species)
 
-	csvCounts := xsv.exportFrame([rawCounts], "csv", {})
+	// Set default conversion memory and CPU
+	defaultConvMem := "16GiB" // @TODO: set based on the size of the input
+	defaultConvCpu := 1       // @TODO: set based on the size of the input
+
+	csvCounts := xsv.exportFrame([rawCounts], "csv", { mem: defaultConvMem, cpu: defaultConvCpu })
 
 	cellTypeAnnotation := exec.builder().
 		software(assets.importSoftware("@platforma-open/milaboratories.cell-type-annotation.software:annotate-cell-types")).
+		mem("16GiB").
+		cpu(1).
 		addFile("rawCounts.csv", csvCounts).
 		addAsset(modelAsset, "model", string(modelName)).
 		addAsset(geneAsset, "geneAnnotation", string(geneAssetName)).
@@ -54,7 +60,7 @@ wf.body(func(args) {
 		run()
 
 	labelImportParams := pfCellAnnotations.getColumns(blockId, inputSpec)
-	labelsPf := xsv.importFile(cellTypeAnnotation.getFile("labels.csv"), "csv", labelImportParams, {splitDataAndSpec: true})
+	labelsPf := xsv.importFile(cellTypeAnnotation.getFile("labels.csv"), "csv", labelImportParams, {splitDataAndSpec: true, mem: defaultConvMem, cpu: defaultConvCpu})
 
 	// Create informative label with relevant cell type annotation parameters
 	traceLabel := "Cell Type Annotation (" + args.model + ", mode:" + mode + ")"
