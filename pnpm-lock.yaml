@@ -16,11 +16,11 @@ catalogs:
       specifier: ^2.1.18
       version: 2.2.2
     '@platforma-open/milaboratories.celltypist-assets':
-      specifier: ^1.0.0
-      version: 1.0.0
+      specifier: ^1.1.0
+      version: 1.1.0
     '@platforma-open/milaboratories.gene-annotations-assets':
-      specifier: ^1.0.0
-      version: 1.0.0
+      specifier: ^1.1.0
+      version: 1.1.0
     '@platforma-open/milaboratories.runenv-python-3':
       specifier: ^1.1.16
       version: 1.1.16
@@ -201,10 +201,10 @@ importers:
         version: 2.2.2
       '@platforma-open/milaboratories.celltypist-assets':
         specifier: 'catalog:'
-        version: 1.0.0
+        version: 1.1.0
       '@platforma-open/milaboratories.gene-annotations-assets':
         specifier: 'catalog:'
-        version: 1.0.0
+        version: 1.1.0
       '@platforma-open/milaboratories.software-small-binaries':
         specifier: 'catalog:'
         version: 1.15.21
@@ -1195,107 +1195,107 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer@1.0.0':
-    resolution: {integrity: sha512-yQHSDzSbpAnD1D0Utj++gnKEcUmnNRIpJZeZcCCbfxWe7WR+/knmUh8AVb8niK6PsavlxZYQNA909KvPygsL7w==}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer@1.1.0':
+    resolution: {integrity: sha512-tgndBC9CqW4HDVCXM5lT8qVq0GXydetarUTJL2TSiYI0e6TntJCaBilb21dts55pErADP1NXE+ly5Z6bQ2L7wg==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood@1.0.0':
-    resolution: {integrity: sha512-BBUz7GF0nZU9n7zqw9ly/Ms3ogX6m8xaszMbcNCUCx6jeM5MhYecG1BleQzRaLBogpMM2YkiWdNWnCb2vZ+a1Q==}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood@1.1.0':
+    resolution: {integrity: sha512-N51XgUR9YZvJrPyCMUNkaqf4fnIzg1OCdotPTW82BTtfxcVE10RxpmC/10Z+4UUuH/VuVhz0zU79dWmAupteIw==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood@1.0.0':
-    resolution: {integrity: sha512-wRHnCkMqT9fOoHzPq8ljj0wvbfkjF52C7MoznIMuD++LurAd9pMVSHzDdcuZd8L2CVGu4u5SW2fzsMEOiIZhLw==}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood@1.1.0':
+    resolution: {integrity: sha512-QTCmb30fHBVTa+mNpQUP4wH6LTzMXmqTG8oicKc7fpEqpWmq1hD2zx4vrJ8ObjEuPXsGyzIN5JvfaY5ocSER7w==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis@1.0.0':
-    resolution: {integrity: sha512-rDl1y1WeT7csXJec5ZsxkWIe2RQDVFKNfmT56IddwQnH/bT7vW2LTdhWcVy3v/gGVLmdXuBkmfDcPkHe1YEMRQ==}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis@1.1.0':
+    resolution: {integrity: sha512-qzuFB7y3ucUBRmeLL/whyM2j4oHkIkaBVjk8BWmYnfPGzBjA3iY0HTq7Uc9rbkiZiNXW1IY0U+SOQEef3yurWQ==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-breast@1.0.0':
-    resolution: {integrity: sha512-gnyoP2ViZ8cNfuh9Svxf5U8g8aU/KjlxtIpxthn8dqSiCbBqwZxjBa+0bVGxp2Col9hQcVQbYj6stZrnRBKxtA==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-breast@1.1.0':
+    resolution: {integrity: sha512-1rQsTb59gZV8bl0dazxoDTt/rNc8kbCn0MA2qj3Jn416K9Oa9XmlUPworW9AVYuivY862Hgns5SlP3u6OnRZkg==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium@1.0.0':
-    resolution: {integrity: sha512-YpwIIk1JcuYxgtXpyVtWlio0mU2Mw3fnjkgPtW5uVMgP9rsv0XgSmmCjVsmPqhUaqf2pPJBZsz2MmFZVa+BUjw==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium@1.1.0':
+    resolution: {integrity: sha512-u4yVKpJV0KRpsfxBPmzfv5v0LXDTHhdTLxle4wq0dXMME0A79GXut8r88+/9KByOKQlkUw/s/hvGJ/0AA2eReg==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-heart@1.0.0':
-    resolution: {integrity: sha512-6B0ApX+e1pH5jUqCGhnrL7FWvV/qbJupjvqTvbSHZyIa2esFm1V4V/kCTuAoSWzRwsUYLi0QW8ufwu7XJoj7fw==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-heart@1.1.0':
+    resolution: {integrity: sha512-gp4/zM28qoB5/ziSkIsAyRlP1Ec+zb9NTGYE4OSF80wWgEkJY4A3AkPiLEezIWuSTOz3yuB1df2KWnw5QjYvTA==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus@1.0.0':
-    resolution: {integrity: sha512-xF0cgcqaSa8oqE6a+5eoy4HOVZXOBlnCJ288H4HMf6NHK6u28SB2DcVf4qr26vUnEVKt2h1G1/4rCq67zTUJxw==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus@1.1.0':
+    resolution: {integrity: sha512-/VJuKVzRg2sZBskr1wsJ1j9TcgXloGFI7M8FAU86ifoWFfentYd0voJwFo3Rb5huedIVygCuV5PHNKwY2cExuw==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations@1.0.0':
-    resolution: {integrity: sha512-hR8w2GjtiLo22zyqA9451W7G2p0vJq7egK7ReeNyGORNxX7+bdpZw5Vfvs6VaCG9TbD0feViLlLP+e9zy8LFHQ==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations@1.1.0':
+    resolution: {integrity: sha512-LnyhEVrfS2qgdx6rxzswLBMZQRKIZZlD/bnvYHlYJ87pQWzSVgDzsPg6PXNeqP5A1Ji1/kk3VlRj74p00vfuug==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations@1.0.0':
-    resolution: {integrity: sha512-OSt0Xu6HCJzvud/13Bo2p4JofPGZRuLL9yUvA5O87JSJPXgpIzFBkvAmidSmy504pZU273c9fioYbwBrHcVvmA==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations@1.1.0':
+    resolution: {integrity: sha512-aE7lZe8Rd6g06RLvl7Z0HpZuKyMQRK6jPKxEUKO9KGMcyh9C8G2jSuoXLlgvKihX6Y+9pO44du9VyaSTlDeUEA==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-liver@1.0.0':
-    resolution: {integrity: sha512-5Ja3xXkTk7J6515RV+4r6JKUUT8cW4OgxXIEGRcAsjD0rId22f9MwByejK2xWpddaA15A6x1dNHnYKqvOAt1rg==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-liver@1.1.0':
+    resolution: {integrity: sha512-i5wGwuAdvjFMdcaC+Ud4Lst5rbYqrVS4unSXUuKXxbQ26oQbfdwm1KtXX4SvFkXu0DkI8tQSZj86jnhYFaQo7w==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-lung@1.0.0':
-    resolution: {integrity: sha512-dIIANU6mSs4I2H/vqGAOffogFg/PyHrENyDVQAy3RW4x/iU00mJjF/WE33xcoh+4a9sAdeA1D/4Tw6/Csbg6Hw==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-lung@1.1.0':
+    resolution: {integrity: sha512-QV4TUR9BMttuA45MPM6HReYA6ilF8HiCGm+G9PKv7ytKo4EIuo1qaSFLoCOmZffjUWk3jIKqH7gk7hRrcx0YXw==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus@1.0.0':
-    resolution: {integrity: sha512-/3/85bvTnQgNLqBUv/IQcfrF1w/oH6X0euOjg4vC5MV1ZxVlXoyzdCP1GB83Bf42khCYr7i2pYAQopHh9RstMw==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus@1.1.0':
+    resolution: {integrity: sha512-uPckp55SbrEGx0QQYpHsG/rVmX3Im+YuT2fhedEPIyYP0BLWyNpONwZBN1jjjOgYlLPT9tNsRiz7bNvALswOtg==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet@1.0.0':
-    resolution: {integrity: sha512-iEPuFkzWPfR9LbATboOaa/7fHBD9cl6qpiMlj263LJ3QKWRdPhCeSuhWIJ8V4/dH+ulim36n/npc45Kpww5CPQ==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet@1.1.0':
+    resolution: {integrity: sha512-IHdX91y3bID4TJ2EanJ3wV/fQhv1TxEtj7cfcrvx8b27h5uEuA3shTywG+vmDtTi1MHNLykvwgJQLKUgY+inYQ==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex@1.0.0':
-    resolution: {integrity: sha512-xDR7Zdg1c48uFg3/MKAulLJPTlIE/QuqLun69k5YmlRQq/cC02hpuvH3n681eflwzVedC0aqwZdV1HOL3RBVOQ==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex@1.1.0':
+    resolution: {integrity: sha512-yic0FA5COi4HFLcHAwO1g057AqgDGnpqhZJ8kvMqJnL19vHQ3w58c54ZvzChHzsFi+GRe5bHGj0GTTxd/z2xbA==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-skin@1.0.0':
-    resolution: {integrity: sha512-Bf42MrRQQlmwZcGjtrYA49EH5SGcBIelVrlt/yzFHJGgx5S4LyouK4b/kMxRI8JsDBhwS+IbR8+MPHfvA2F84g==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-skin@1.1.0':
+    resolution: {integrity: sha512-nRbB1lX/vKBCAscItMLP9Apnk7mXFzgCvrSNBnahR7PsKXPDeh+EPB431b765zmlf2slg+aTgyiugwjxYJCBhw==}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular@1.0.0':
-    resolution: {integrity: sha512-C8ZNCT9ofNKYMXHKnYokonXfU8mjljgOx/Oa4L6ydyl1WOU4kmsWeFJCZtYn7x/dbZ+Ev4cLml5+VpZ9lrXfEQ==}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular@1.1.0':
+    resolution: {integrity: sha512-pUVCrJA7cGdaE6Nk03SA/MZD1OYC+mo+sJgN7asTy1eB2Cq87PRPfa5hm4+D/92xaNna0NZMhOqj6Dlz38vI9A==}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain@1.0.0':
-    resolution: {integrity: sha512-BoJ/6yIoBCDyvp+DuxB/IJ2iyUEad7/yr85UslfM3pOSePe6xwE+EBPyDVRNAINhXwzDT/xtN4btY76qp1LHug==}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain@1.1.0':
+    resolution: {integrity: sha512-CWZRbONOCgM5Eb1L38A5k7x+1/csef/5+VhaC71ijRpQMOnZT3hPJZaxNCUHZuh5CKqYORZLd0ebIP+Tg3nOlA==}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut@1.0.0':
-    resolution: {integrity: sha512-hLFz+NJPp9bh/gVvZ5NDWarpu07Rnerc+DMZWewW0elMDxaiDuRan7ICA/Trabc9PMzBZYJy6lGzPuVuBhGT0g==}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut@1.1.0':
+    resolution: {integrity: sha512-i093s0gGr3gc/euIHiGoTqQA0qdcRTYqRQT2zq/V/oSLiSKnC7BYcVqQMvgBetloHyT9tnJhyYN5KLvFqKVpPw==}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver@1.0.0':
-    resolution: {integrity: sha512-Bcd4hpx64erpwAb19ZuLrjI/1rxpXMZvEpM2UzwAyNrziuGSg0NlKBUQsrGuXzSrTyPwvKxoSSu33y6SPC8oTQ==}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver@1.1.0':
+    resolution: {integrity: sha512-PIWGPyeAlMh93ntdMwYDeWpqzP+9KDCTOYcbOXzwcBET2TdC0gVQGCHbdoLAEhFFcAzeGIGv/xTTmPWcF0oDEA==}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb@1.0.0':
-    resolution: {integrity: sha512-lTac0o7S2Avohw7IM9aS8BARP2Qz1nnQLbJ1ScncFWCylCXJFAm0DPDzjzSCOATw0wNVslQZJVgvAkG76ULcXQ==}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb@1.1.0':
+    resolution: {integrity: sha512-9oaaVav+T8QGdXd1eIxqRxe6hvIwAQOyf0L4/NrUKGFhbh9KpLBixVDoK2YpZGnItiAEx/FpBLDRWe83AV4sOQ==}
 
-  '@platforma-open/milaboratories.celltypist-assets@1.0.0':
-    resolution: {integrity: sha512-5sxDi6MNZ/Ggo+f2aE+XaOWG7xA26X1pJRUugwYQmejDvazD7ZJgqn91oFKtiEfsz7n3zSiizv6jLoQcAqEm2A==}
+  '@platforma-open/milaboratories.celltypist-assets@1.1.0':
+    resolution: {integrity: sha512-Zte6FNjVUyN4p+QCdo07DHaZfDPApR9FEwvD8WlDj/jcobMANXr4+t2Zo67eVuyM/4Hwcc8sF8IWfPPCPJuV0w==}
 
-  '@platforma-open/milaboratories.gene-annotations-assets@1.0.0':
-    resolution: {integrity: sha512-VWcrVkaLxC//TVIm6fCsYGPuk6wTlWueFiCul+fPFEkHKC5Lwy5CMmvSsfh03948KLJBzA2vJg+Zl7DUuCsIBA==}
+  '@platforma-open/milaboratories.gene-annotations-assets@1.1.0':
+    resolution: {integrity: sha512-mtVVuVCoOZzKW8BqjzIR/w/U0NasddE/vSERcfef9BvVyToOkEb9b5TX8e4Jl5rlPag6C2uiwgwiwgzb4dvjsg==}
 
-  '@platforma-open/milaboratories.gene-annotations.arabidopsis-thaliana@1.0.0':
-    resolution: {integrity: sha512-RDX+HDmOvGOj4ewuJxRvl9CjtTk8i2UAbAd6+klLjeoXeNb39hJStKB/92cCJTu4gdZVDFT7C4ShKqMZUHtb2A==}
+  '@platforma-open/milaboratories.gene-annotations.arabidopsis-thaliana@1.1.0':
+    resolution: {integrity: sha512-rHD9xxLghUDEMcN8n1qDWq48k3woCC0iddZIL0FGGr8evvWXi+D1LxkY7CWX0/wZ5oasuT9WxBZmICwxBxTDtQ==}
 
-  '@platforma-open/milaboratories.gene-annotations.bos-taurus@1.0.0':
-    resolution: {integrity: sha512-CXNQ7O+I8sJfd6T0zy+2xD7DMiB6eUy1MHo2OiodC6tTym6GWNO26dQNtRMhnIYvzXBVUpk1GwbtRRVnVEv9vw==}
+  '@platforma-open/milaboratories.gene-annotations.bos-taurus@1.1.0':
+    resolution: {integrity: sha512-sH2sr2ZZPhTqz/sPoyQL9OVFyUm1gX6zcTtbPrX2QX45OhZqj8TVnax6z+k9Dv9YkF/9x5k1K87FSUIuJQDbtg==}
 
-  '@platforma-open/milaboratories.gene-annotations.caenorhabditis-elegans@1.0.0':
-    resolution: {integrity: sha512-2pVpPuoX12L+n5bL0SNz79ls58lIuevK4CwGQORLOPhRjxR2C0Vh4MWmB78S2pp5O7IlP5Q3W9wCMsTK7kKJOQ==}
+  '@platforma-open/milaboratories.gene-annotations.caenorhabditis-elegans@1.1.0':
+    resolution: {integrity: sha512-MR4rPBzjw1rQxcP9ZSYiHsIteVUTE5ysvvzHQSKIoT+y5B3+1ioMiDQw/rWjwNJszJAsatTW84Zj1QWXjeYvjQ==}
 
-  '@platforma-open/milaboratories.gene-annotations.danio-rerio@1.0.0':
-    resolution: {integrity: sha512-sNNYqZCtT+1vSmtDCymPZ7gghYXbLEm28WGkuCDDzUjOWOPTcPyHXTjnsIcVFtzKBwVrrsS4A4wg4iDfRlRo1A==}
+  '@platforma-open/milaboratories.gene-annotations.danio-rerio@1.1.0':
+    resolution: {integrity: sha512-OT2e8raAsiRlO9sYVGaJu8QycV7kRni4tS2mTwi2fnE9R6FbehTcV8AnkYJF0Vgrv3nU2+55aUzHrBVlPjjtUQ==}
 
-  '@platforma-open/milaboratories.gene-annotations.drosophila-melanogaster@1.0.0':
-    resolution: {integrity: sha512-xFJrw10R+waGRZOKbx4VMhC6XOlAfYUyxcOQN0poCJ6YFRQZAGSWVB010ekG84O8QVQywmVkUtmjWGrutAb55g==}
+  '@platforma-open/milaboratories.gene-annotations.drosophila-melanogaster@1.1.0':
+    resolution: {integrity: sha512-ipdv2mI8yiHaQ1ZUPhpiebaKM8QnRJJwOSuB9pyfqWks0xAQzKcRvr0NfKKWAnNDtX8Qyg5PifL+ICEqOqBXeQ==}
 
-  '@platforma-open/milaboratories.gene-annotations.gallus-gallus@1.0.0':
-    resolution: {integrity: sha512-xQ06jFQpSO3IkG2p6T8Gv47DTxvgqVINfBkRo6zbI9eM4ExuhZA/26uQ6fydteryMD6F34YM3lWIeA0QLRCZHA==}
+  '@platforma-open/milaboratories.gene-annotations.gallus-gallus@1.1.0':
+    resolution: {integrity: sha512-IDPZ7iRP9FbmZ9qkFidS1nIrdWhMJYzAkDVgd4CNaqC0l9XgJioxsG134M7QDlEvpUYg6AcyegD1B3RlmSwtLQ==}
 
-  '@platforma-open/milaboratories.gene-annotations.homo-sapiens@1.0.0':
-    resolution: {integrity: sha512-PX8ZYDf2peRPp5shg1a+7zkimSoTvf3RPL6ezAe1L/jZmBxKsjLfXSbPZz/bzXvcK2XvS7TokcvoOdyFWT3BZw==}
+  '@platforma-open/milaboratories.gene-annotations.homo-sapiens@1.1.0':
+    resolution: {integrity: sha512-5QMyepyfjkCg9OL1m/xuSpCHJIw/AUVtTVGbwpjmsg7Md964Yu5JBXaTtx7+/LTrXM1BAzAEqHbTA85hlV+lhA==}
 
-  '@platforma-open/milaboratories.gene-annotations.mus-musculus@1.0.0':
-    resolution: {integrity: sha512-F0BubPbnkoiskrcfoJNnr0qArheGyDmJxtpxLneVXcp1XbaHbIm8+opw/LgM4wB1nRfe5bMSd3ocXQCj4mu1fA==}
+  '@platforma-open/milaboratories.gene-annotations.mus-musculus@1.1.0':
+    resolution: {integrity: sha512-nztbhqqGc89mt0b9Mcv0V2ZXPaNLPYw3MTaQ9U1Me6w0d5gW9fM50iyOdXg5d1UZthBhP1texPFKSZPZV8HpCg==}
 
-  '@platforma-open/milaboratories.gene-annotations.rattus-norvegicus@1.0.0':
-    resolution: {integrity: sha512-uZi5z/4MJGk8yJq/HKYU4y9rjxV8mvyWlj+ZOScIhhhDGzsiQppKSLzjaWxke9CtCn5Nv3LGBTm6HwgLXKydrA==}
+  '@platforma-open/milaboratories.gene-annotations.rattus-norvegicus@1.1.0':
+    resolution: {integrity: sha512-0aI2GX1x5f6OIarfK0oYYeSgmuvkVdtrcdrHCuH4JO33GG+qa5s3LJAVdOXFBlMzxEd3jAaa5TxApiCAFzThPw==}
 
-  '@platforma-open/milaboratories.gene-annotations.saccharomyces-cerevisiae@1.0.0':
-    resolution: {integrity: sha512-er0b3TmOrMY6ULuQSBNSfQRjZbWJVrd950+zg9hsK7naiO6daLNL+CwhqRvjLAnNxhK5Z+52UOy5Ow5Ad6KedA==}
+  '@platforma-open/milaboratories.gene-annotations.saccharomyces-cerevisiae@1.1.0':
+    resolution: {integrity: sha512-q0QA0ab5geXBD/itdkGfSmw00V6rsKu31UY+dtFpHRpZC1jVDms2yrJXnvB35gqMTtJl98Jl4+0WwcjnX8eDPg==}
 
-  '@platforma-open/milaboratories.gene-annotations.sus-scrofa@1.0.0':
-    resolution: {integrity: sha512-zhpodWHKEXAyrRsauD9J4NJD4Gg54XZliCT7161slBKKyByLeJwOGM85Fk7TtwVzXsIcbM5vt4RO1UEpKlziwA==}
+  '@platforma-open/milaboratories.gene-annotations.sus-scrofa@1.1.0':
+    resolution: {integrity: sha512-H7YJO09jT/EVYeIS2knLfE3EJhS1BNfI9YsAfkpkm6ytQmYesBD0L1bEazqsNHCLmsSuCh7U5uODeTuoeRgX7g==}
 
   '@platforma-open/milaboratories.runenv-python-3@1.1.16':
     resolution: {integrity: sha512-A46M7cK1uVW4itLjXX9nodZm97ETcDBDQPQpBsPmu+Wjy8wlyHxUUH/v8KvtW45gNcW+yNO0LvzqE0u4GL86Jg==}
@@ -7064,107 +7064,107 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-breast@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-breast@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-heart@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-heart@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-liver@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-liver@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-lung@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-lung@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-skin@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-skin@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb@1.0.0': {}
+  '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb@1.1.0': {}
 
-  '@platforma-open/milaboratories.celltypist-assets@1.0.0':
+  '@platforma-open/milaboratories.celltypist-assets@1.1.0':
     dependencies:
-      '@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-breast': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-heart': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-liver': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-lung': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-skin': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver': 1.0.0
-      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb': 1.0.0
+      '@platforma-open/milaboratories.celltypist-assets.human-disease-colorectalcancer': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-blood': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-disease-covid19-lungblood': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-disease-idiopaticpulmonaryfibrosis': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-breast': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-endometrium': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-heart': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-hippocampus': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunepopulations': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-immunesubpopulations': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-liver': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-lung': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-middletemporalgyrus': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-pancreaticislet': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-prefrontalcortex': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-skin': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.human-healthy-vascular': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-brain': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-gut': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-liver': 1.1.0
+      '@platforma-open/milaboratories.celltypist-assets.mouse-healthy-olfactorybulb': 1.1.0
 
-  '@platforma-open/milaboratories.gene-annotations-assets@1.0.0':
+  '@platforma-open/milaboratories.gene-annotations-assets@1.1.0':
     dependencies:
-      '@platforma-open/milaboratories.gene-annotations.arabidopsis-thaliana': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.bos-taurus': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.caenorhabditis-elegans': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.danio-rerio': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.drosophila-melanogaster': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.gallus-gallus': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.homo-sapiens': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.mus-musculus': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.rattus-norvegicus': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.saccharomyces-cerevisiae': 1.0.0
-      '@platforma-open/milaboratories.gene-annotations.sus-scrofa': 1.0.0
+      '@platforma-open/milaboratories.gene-annotations.arabidopsis-thaliana': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.bos-taurus': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.caenorhabditis-elegans': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.danio-rerio': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.drosophila-melanogaster': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.gallus-gallus': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.homo-sapiens': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.mus-musculus': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.rattus-norvegicus': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.saccharomyces-cerevisiae': 1.1.0
+      '@platforma-open/milaboratories.gene-annotations.sus-scrofa': 1.1.0
 
-  '@platforma-open/milaboratories.gene-annotations.arabidopsis-thaliana@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.arabidopsis-thaliana@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.bos-taurus@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.bos-taurus@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.caenorhabditis-elegans@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.caenorhabditis-elegans@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.danio-rerio@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.danio-rerio@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.drosophila-melanogaster@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.drosophila-melanogaster@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.gallus-gallus@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.gallus-gallus@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.homo-sapiens@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.homo-sapiens@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.mus-musculus@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.mus-musculus@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.rattus-norvegicus@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.rattus-norvegicus@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.saccharomyces-cerevisiae@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.saccharomyces-cerevisiae@1.1.0': {}
 
-  '@platforma-open/milaboratories.gene-annotations.sus-scrofa@1.0.0': {}
+  '@platforma-open/milaboratories.gene-annotations.sus-scrofa@1.1.0': {}
 
   '@platforma-open/milaboratories.runenv-python-3@1.1.16': {}
 
