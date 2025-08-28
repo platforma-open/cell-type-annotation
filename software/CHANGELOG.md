@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.software
 
+## 1.3.1
+
+### Patch Changes
+
+- ef4e961: SDK update
+
 ## 1.3.0
 
 ### Minor Changes

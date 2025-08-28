@@ -1,5 +1,13 @@
 # @platforma-open/milaboratories.cell-type-annotation.ui
 
+## 1.4.1
+
+### Patch Changes
+
+- ef4e961: SDK update
+- Updated dependencies [ef4e961]
+  - @platforma-open/milaboratories.cell-type-annotation.model@1.3.1
+
 ## 1.4.0
 
 ### Minor Changes
