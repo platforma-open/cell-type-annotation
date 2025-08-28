@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation
 
+## 1.2.8
+
+### Patch Changes
+
+- 2336bd5: Fix to allow merge publication
+
 ## 1.2.7
 
 ### Patch Changes
