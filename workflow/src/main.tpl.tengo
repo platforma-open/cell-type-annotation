@@ -66,7 +66,7 @@ wf.body(func(args) {
 	traceLabel := "Cell Type Annotation (" + args.model + ", mode:" + mode + ")"
 	
 	trace := pSpec.makeTrace(inputSpec,
-		{type: "milaboratories.cell-type-annotation", id: blockId, importance: 35, label: traceLabel}
+		{type: "milaboratories.cell-type-annotation", id: blockId, importance: 80, label: traceLabel}
 	)
 
 	// Build cell type annotations pFrame with trace injection
