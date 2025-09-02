@@ -139,6 +139,6 @@ export const model = BlockModel.create()
       : 'Cell Type Annotation',
   )
 
-  .done();
+  .done(2);
 
 export type BlockOutputs = InferOutputsType<typeof model>;
