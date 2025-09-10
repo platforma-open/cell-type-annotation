@@ -1,5 +1,14 @@
 # @platforma-open/milaboratories.cell-type-annotation
 
+## 1.2.10
+
+### Patch Changes
+
+- Updated dependencies [40b172e]
+  - @platforma-open/milaboratories.cell-type-annotation.model@1.3.2
+  - @platforma-open/milaboratories.cell-type-annotation.workflow@1.5.3
+  - @platforma-open/milaboratories.cell-type-annotation.ui@1.4.2
+
 ## 1.2.9
 
 ### Patch Changes

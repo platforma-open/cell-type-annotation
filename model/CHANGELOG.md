@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.model
 
+## 1.3.2
+
+### Patch Changes
+
+- 40b172e: Full SDK update
+
 ## 1.3.1
 
 ### Patch Changes
