@@ -49,7 +49,9 @@ export const model = BlockModel.create()
 
   .output('countsOptions', (ctx) =>
     ctx.resultPool.getOptions((spec) => isPColumnSpec(spec)
-      && spec.name === 'pl7.app/rna-seq/countMatrix' && spec.domain?.['pl7.app/rna-seq/normalized'] === 'false'
+      && spec.name === 'pl7.app/rna-seq/countMatrix'
+      && spec.domain?.['pl7.app/rna-seq/normalized'] === 'false'
+      && spec.annotations?.['pl7.app/hideDataFromGraphs'] === 'true'
     , { includeNativeLabel: false, addLabelAsSuffix: true }),
   )
 
@@ -118,7 +120,16 @@ export const model = BlockModel.create()
       return undefined;
     }
 
-    return [...pCols, ...upstream].map(
+    // Return batch corrected UMAP/tSNE if present
+    let finalPcols = [];
+    const batchCorrected = pCols.filter((col) => col.spec.domain?.['pl7.app/rna-seq/batch-corrected'] === 'true');
+    if (batchCorrected.length !== 0) {
+      finalPcols = pCols.filter((col) => col.spec.domain?.['pl7.app/rna-seq/batch-corrected'] !== 'false');
+    } else {
+      finalPcols = pCols;
+    }
+
+    return [...finalPcols, ...upstream].map(
       (c) =>
         ({
           columnId: c.id,
@@ -139,6 +150,6 @@ export const model = BlockModel.create()
       : 'Cell Type Annotation',
   )
 
-  .done();
+  .done(2);
 
 export type BlockOutputs = InferOutputsType<typeof model>;
