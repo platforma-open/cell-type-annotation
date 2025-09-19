@@ -13,8 +13,8 @@ catalogs:
       specifier: ^1.1.154
       version: 1.1.154
     '@milaboratories/software-pframes-conv':
-      specifier: ^2.2.2
-      version: 2.2.2
+      specifier: ^2.2.7
+      version: 2.2.7
     '@platforma-open/milaboratories.celltypist-assets':
       specifier: ^1.1.0
       version: 1.1.0
@@ -25,7 +25,7 @@ catalogs:
       specifier: ^1.4.12
       version: 1.4.12
     '@platforma-open/milaboratories.software-small-binaries':
-      specifier: ^1.15.19
+      specifier: ^1.15.22
       version: 1.15.21
     '@platforma-sdk/block-tools':
       specifier: ^2.6.1
@@ -204,7 +204,7 @@ importers:
     devDependencies:
       '@milaboratories/software-pframes-conv':
         specifier: 'catalog:'
-        version: 2.2.2
+        version: 2.2.7
       '@platforma-open/milaboratories.celltypist-assets':
         specifier: 'catalog:'
         version: 1.1.0
@@ -1193,6 +1193,9 @@ packages:
 
   '@milaboratories/software-pframes-conv@2.2.2':
     resolution: {integrity: sha512-eJIp1YGi6g83peviw8SYlr5N4KV2SmDi3Mhz2FjrS4d/WaKOhoTD9+YvRpOTCQ0KyT44FNRF+nCoN/idKT3SzA==}
+
+  '@milaboratories/software-pframes-conv@2.2.7':
+    resolution: {integrity: sha512-FFZRPP8C86cJdGbaj6t/FmHSfRyuSWnXw8d6UACtPLh7sQRRuwi95LBp808sPP5vqFWBHFijvuh0CtXdSrjZYA==}
 
   '@milaboratories/tengo-tester@1.6.3':
     resolution: {integrity: sha512-HkCvUa9VkCGvxB23BFu6/T11HXT3Sn8FeKu/hE30O8DrF5e6DRcTRuETofarOH2yu7yUXoWBsv8Gmyy7aSPXag==}
@@ -7269,6 +7272,8 @@ snapshots:
   '@milaboratories/resolve-helper@1.1.1': {}
 
   '@milaboratories/software-pframes-conv@2.2.2': {}
+
+  '@milaboratories/software-pframes-conv@2.2.7': {}
 
   '@milaboratories/tengo-tester@1.6.3': {}
 
