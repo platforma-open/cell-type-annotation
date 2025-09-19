@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation
 
+## 1.3.0
+
+### Minor Changes
+
+- d0a3e59: Update dependencies
+
 ## 1.2.10
 
 ### Patch Changes
