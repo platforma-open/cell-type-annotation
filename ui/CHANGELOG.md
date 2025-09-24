@@ -1,5 +1,13 @@
 # @platforma-open/milaboratories.cell-type-annotation.ui
 
+## 1.4.3
+
+### Patch Changes
+
+- c13c506: technical release
+- Updated dependencies [c13c506]
+  - @platforma-open/milaboratories.cell-type-annotation.model@1.3.3
+
 ## 1.4.2
 
 ### Patch Changes

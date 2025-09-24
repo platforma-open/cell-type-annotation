@@ -1,5 +1,13 @@
 # @platforma-open/milaboratories.cell-type-annotation.workflow
 
+## 1.5.4
+
+### Patch Changes
+
+- c13c506: technical release
+- Updated dependencies [c13c506]
+  - @platforma-open/milaboratories.cell-type-annotation.software@1.3.3
+
 ## 1.5.3
 
 ### Patch Changes
