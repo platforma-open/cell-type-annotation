@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.model
 
+## 1.3.4
+
+### Patch Changes
+
+- c17dab6: Support latest Cell Ranger version
+
 ## 1.3.3
 
 ### Patch Changes
