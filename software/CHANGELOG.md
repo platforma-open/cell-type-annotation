@@ -1,5 +1,14 @@
 # @platforma-open/milaboratories.cell-type-annotation.software
 
+## 1.3.4
+
+### Patch Changes
+
+- 1a15200: technical release
+- 148c82f: technical release
+- 41c091d: technical release
+- 775c452: technical release
+
 ## 1.3.3
 
 ### Patch Changes
