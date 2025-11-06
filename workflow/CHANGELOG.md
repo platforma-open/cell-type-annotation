@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.workflow
 
+## 1.5.6
+
+### Patch Changes
+
+- 6633c97: Update to Parquet
+
 ## 1.5.5
 
 ### Patch Changes
