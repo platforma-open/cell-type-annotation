@@ -27,9 +27,9 @@
     "meta": {
       "title": "Cell Type Annotation",
       "logo": "file:../logos/block-logo.png",
-      "url": "https://github.com/platforma-open/milaboratories.cell-type-annotation",
+      "url": "https://github.com/platforma-open/cell-type-annotation",
       "support": "mailto:support@milaboratories.com",
-      "description": "Automatically annotates cell types in single-cell RNA-seq data using CellTypist models.",
+      "description": "Automatically annotates cell types using pre-trained CellTypist models with confidence scores.",
       "longDescription": "file:../docs/description.md",
       "changelog": "file:../CHANGELOG.md",
       "tags": [
