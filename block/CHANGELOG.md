@@ -1,5 +1,16 @@
 # @platforma-open/milaboratories.cell-type-annotation
 
+## 1.4.0
+
+### Minor Changes
+
+- 937b826: Enable deduplication and update metadata.
+
+### Patch Changes
+
+- Updated dependencies [937b826]
+  - @platforma-open/milaboratories.cell-type-annotation.workflow@1.6.0
+
 ## 1.3.4
 
 ### Patch Changes
