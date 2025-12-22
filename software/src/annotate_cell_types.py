@@ -1,62 +1,113 @@
 import pandas as pd
+import polars as pl
 import scanpy as sc
 import celltypist
 from celltypist import models
 import argparse
 import os
+import numpy as np
+import time
+from scipy.sparse import csr_matrix
+
+def log_message(message, status="INFO"):
+    """Logs messages in a structured format."""
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[{timestamp}] [{status}] {message}")
 
 def load_data_long_format(file_path, gene_map_path=None):
     """
     Load long-format scRNA-seq data and convert to AnnData object.
     Optionally map Ensembl IDs to gene symbols using a mapping file.
     """
-    print("🔹 Loading data...")
-    df = pd.read_csv(file_path)
+    log_message("Loading counts with Polars and Categorical optimization", "STEP")
+    
+    # Peek schema to handle flexible headers and identify columns for Categorical casting
+    temp_scan = pl.scan_csv(file_path)
+    file_schema = temp_scan.collect_schema()
+    column_names = set(file_schema.keys())
+
+    schema_overrides = {
+        "Sample": pl.Categorical,
+        "Ensembl Id": pl.Categorical,
+        "Cell Barcode": pl.Categorical,
+        "Cell ID": pl.Categorical,
+        "CellId": pl.Categorical
+    }
+    # Only apply overrides for columns that actually exist in the file
+    schema_overrides = {k: v for k, v in schema_overrides.items() if k in column_names}
+    
+    df_pl = pl.read_csv(file_path, schema_overrides=schema_overrides)
 
     # Normalize minimal expected headers
-    df.columns = [c.strip() for c in df.columns]
-    if "Cell Barcode" not in df.columns and "Cell ID" in df.columns:
-        df = df.rename(columns={"Cell ID": "Cell Barcode"})
-    if "Cell Barcode" not in df.columns and "CellId" in df.columns:
-        df = df.rename(columns={"CellId": "Cell Barcode"})
+    if "Cell Barcode" not in df_pl.columns:
+        if "Cell ID" in df_pl.columns:
+            df_pl = df_pl.rename({"Cell ID": "Cell Barcode"})
+        elif "CellId" in df_pl.columns:
+            df_pl = df_pl.rename({"CellId": "Cell Barcode"})
 
     required_cols = {"Sample", "Cell Barcode", "Ensembl Id", "Raw gene expression"}
-    if not required_cols.issubset(df.columns):
-        missing = list(required_cols - set(df.columns))
-        raise ValueError(f"Input file must contain columns: {required_cols}. Missing: {missing}. Found: {list(df.columns)}")
+    if not required_cols.issubset(set(df_pl.columns)):
+        missing = list(required_cols - set(df_pl.columns))
+        raise ValueError(f"Input file must contain columns: {required_cols}. Missing: {missing}")
 
     # Map Ensembl IDs to gene symbols if provided
     if gene_map_path:
-        print("🔄 Mapping Ensembl IDs to gene symbols...")
-        gene_map = pd.read_csv(gene_map_path)
-        gene_map = gene_map[["Ensembl Id", "Gene symbol"]].drop_duplicates()
-        df = df.merge(gene_map, on="Ensembl Id", how="inner")
-        df["Gene"] = df["Gene symbol"]
+        log_message(f"Mapping Ensembl IDs to gene symbols from {gene_map_path}", "STEP")
+        gene_map = pl.read_csv(gene_map_path).select(["Ensembl Id", "Gene symbol"]).unique()
+        # Cast mapping columns to categorical to match main dataframe
+        gene_map = gene_map.with_columns([
+            pl.col("Ensembl Id").cast(pl.Categorical),
+            pl.col("Gene symbol").cast(pl.Categorical)
+        ])
+        df_pl = df_pl.join(gene_map, on="Ensembl Id", how="inner")
+        gene_col = "Gene symbol"
     else:
-        df["Gene"] = df["Ensembl Id"]
+        gene_col = "Ensembl Id"
 
-    # Pivot to wide format
-    expr = df.pivot_table(
-        index="Gene",
-        columns=["Sample", "Cell Barcode"],
-        values="Raw gene expression",
-        fill_value=0
+    # Create a unique identifier for each cell (using established SEPARATOR)
+    SEPARATOR = '|||'
+    df_pl = df_pl.with_columns(
+        (pl.col('Sample').cast(str) + pl.lit(SEPARATOR) + pl.col('Cell Barcode').cast(str))
+        .cast(pl.Categorical)
+        .alias('UniqueCellId')
     )
-    expr.columns = ['|'.join(col) for col in expr.columns]
 
-    # Create AnnData
-    adata = sc.AnnData(expr.T)
+    log_message("Creating sparse matrix from long format data", "STEP")
+    
+    # Extract integer codes directly from categorical columns
+    row_codes_raw = df_pl['UniqueCellId'].to_physical().to_numpy()
+    col_codes_raw = df_pl[gene_col].to_physical().to_numpy()
+    # Use float32 for expression values (Scanpy standard)
+    expression_values = df_pl['Raw gene expression'].cast(pl.Float32).to_numpy()
 
-    # Add metadata
-    obs = pd.DataFrame(
-        [x.split('|') for x in adata.obs_names],
-        columns=["Sample", "Cell Barcode"],
-        index=adata.obs_names
+    # Remap codes to 0-indexed contiguous using np.unique
+    unique_row_codes_phys, row_codes = np.unique(row_codes_raw, return_inverse=True)
+    unique_col_codes_phys, col_codes = np.unique(col_codes_raw, return_inverse=True)
+    row_codes = row_codes.astype(np.int32)
+    col_codes = col_codes.astype(np.int32)
+
+    # QUALITY FIX: Synchronize labels with the remapped codes
+    unique_cell_ids = df_pl['UniqueCellId'].cat.get_categories().gather(unique_row_codes_phys).to_pandas()
+    unique_gene_ids = df_pl[gene_col].cat.get_categories().gather(unique_col_codes_phys).to_pandas()
+
+    # Delete Polars objects to free memory
+    del df_pl, row_codes_raw, col_codes_raw
+    
+    # Pre-populate obs with Sample and Cell Barcode vectorially for efficient processing
+    obs_df = pd.DataFrame(index=unique_cell_ids)
+    split_ids = pd.Series(unique_cell_ids.values).str.split(SEPARATOR, n=1, expand=True, regex=False)
+    obs_df['Sample'] = split_ids[0].values
+    obs_df['Cell Barcode'] = split_ids[1].values
+
+    # Create the sparse matrix and AnnData object
+    adata = sc.AnnData(
+        X=csr_matrix((expression_values, (row_codes, col_codes)), shape=(len(unique_cell_ids), len(unique_gene_ids)), dtype=np.float32),
+        obs=obs_df,
+        var=pd.DataFrame(index=unique_gene_ids)
     )
-    adata.obs = obs
 
-    print(f"✅ Loaded {adata.n_obs} cells × {adata.n_vars} genes.")
-    print("🔹 Normalizing data (CPM 10k + log1p)...")
+    log_message(f"AnnData object created: {adata.n_obs} cells × {adata.n_vars} genes", "DONE")
+    log_message("Normalizing data (CPM 10k + log1p)", "STEP")
     sc.pp.normalize_total(adata, target_sum=1e4)
     sc.pp.log1p(adata)
 
@@ -64,45 +115,45 @@ def load_data_long_format(file_path, gene_map_path=None):
 
 def annotate_cells(adata, model_path, mode="best match", clean_labels=True):
     """
-    Annotate cells using CellTypist (v1.6.3) and extract confidence scores via .to_adata().
+    Annotate cells using CellTypist (v1.6.3) and extract confidence scores.
     """
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model file not found: {model_path}")
 
-    print(f"🔹 Loading model from: {model_path}")
+    log_message(f"Loading model from: {model_path}", "STEP")
     model = models.Model.load(model_path)
 
-    print(f"🔹 Annotating cells using mode: {mode}")
+    log_message(f"Annotating cells using mode: {mode}", "STEP")
     result = celltypist.annotate(
         adata,
         model,
         majority_voting=(mode == "majority voting")
     )
 
-    # Convert to AnnData to get confidence scores
-    print("🔄 Converting result to AnnData to extract confidence scores...")
+    # Convert to AnnData to get confidence scores and predicted labels
+    log_message("Extracting labels and confidence scores", "STEP")
     annotated = result.to_adata(insert_labels=True, insert_conf=True)
 
     # Optionally clean the labels
     labels = annotated.obs["predicted_labels"]
     if clean_labels:
-        print("🧹 Cleaning label formatting (removing leading numbers)...")
+        log_message("Cleaning label formatting (removing leading numbers)", "STEP")
         labels = labels.str.replace(r"^\d+\s+", "", regex=True)
 
     # Add cleaned metadata back to original adata
-    adata.obs["Cell type"] = labels
-    adata.obs["Confidence score"] = annotated.obs["conf_score"]
+    adata.obs["Cell type"] = labels.values
+    adata.obs["Confidence score"] = annotated.obs["conf_score"].values
 
-    print("✅ Annotation complete.")
+    log_message("Annotation complete", "DONE")
     return adata
 
 def save_results(adata, output_csv):
     """
     Save annotated results to CSV.
     """
-    print(f"🔹 Saving results to: {output_csv}")
+    log_message(f"Saving results to: {output_csv}", "STEP")
     adata.obs[["Sample", "Cell Barcode", "Cell type", "Confidence score"]].to_csv(output_csv, index=False)
-    print("✅ Results saved.")
+    log_message("Results saved successfully", "DONE")
 
 def main():
     parser = argparse.ArgumentParser(description="Offline CellTypist annotation for scRNA-seq data in long format.")
