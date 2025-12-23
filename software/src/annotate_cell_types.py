@@ -59,7 +59,10 @@ def load_data_long_format(file_path, gene_map_path=None):
             pl.col("Ensembl Id").cast(pl.Categorical),
             pl.col("Gene symbol").cast(pl.Categorical)
         ])
-        df_pl = df_pl.join(gene_map, on="Ensembl Id", how="inner")
+        # Use left join to avoid data loss before normalization
+        df_pl = df_pl.join(gene_map, on="Ensembl Id", how="left")
+        # Ensure every gene has a name, falling back to Ensembl Id if Symbol is missing
+        df_pl = df_pl.with_columns(pl.col("Gene symbol").fill_null(pl.col("Ensembl Id")))
         gene_col = "Gene symbol"
     else:
         gene_col = "Ensembl Id"
