@@ -9,6 +9,8 @@ import numpy as np
 import time
 from scipy.sparse import csr_matrix
 
+np.random.seed(0)
+
 def log_message(message, status="INFO"):
     """Logs messages in a structured format."""
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -83,22 +85,24 @@ def load_data_long_format(file_path, gene_map_path=None):
     # Use float32 for expression values (Scanpy standard)
     expression_values = df_pl['Raw gene expression'].cast(pl.Float32).to_numpy()
 
-    # Remap codes to 0-indexed contiguous using np.unique
-    unique_row_codes_phys, row_codes = np.unique(row_codes_raw, return_inverse=True)
-    unique_col_codes_phys, col_codes = np.unique(col_codes_raw, return_inverse=True)
-    row_codes = row_codes.astype(np.int32)
-    col_codes = col_codes.astype(np.int32)
+    # Remap codes to 0-indexed contiguous using np.unique (efficient integer-based mapping)
+    u_row_phys, row_idx = np.unique(row_codes_raw, return_inverse=True)
+    u_col_phys, col_idx = np.unique(col_codes_raw, return_inverse=True)
 
-    # QUALITY FIX: Synchronize labels with the remapped codes
-    unique_cell_ids = df_pl['UniqueCellId'].cat.get_categories().gather(unique_row_codes_phys).to_pandas()
-    unique_gene_ids = df_pl[gene_col].cat.get_categories().gather(unique_col_codes_phys).to_pandas()
+    # Map labels to sorted ranks and get sorted unique IDs (efficiently processing only unique labels)
+    unique_cell_ids, row_map = np.unique(df_pl['UniqueCellId'].cat.get_categories().gather(u_row_phys).to_numpy(), return_inverse=True)
+    unique_gene_ids, col_map = np.unique(df_pl[gene_col].cat.get_categories().gather(u_col_phys).to_numpy(), return_inverse=True)
+
+    # Final row and column codes are the mapped indices
+    row_codes = row_map[row_idx].astype(np.int32)
+    col_codes = col_map[col_idx].astype(np.int32)
 
     # Delete Polars objects to free memory
-    del df_pl, row_codes_raw, col_codes_raw
+    del df_pl, row_codes_raw, col_codes_raw, u_row_phys, u_col_phys, row_idx, col_idx, row_map, col_map
     
     # Pre-populate obs with Sample and Cell Barcode vectorially for efficient processing
     obs_df = pd.DataFrame(index=unique_cell_ids)
-    split_ids = pd.Series(unique_cell_ids.values).str.split(SEPARATOR, n=1, expand=True, regex=False)
+    split_ids = pd.Series(unique_cell_ids).str.split(SEPARATOR, n=1, expand=True, regex=False)
     obs_df['Sample'] = split_ids[0].values
     obs_df['Cell Barcode'] = split_ids[1].values
 
