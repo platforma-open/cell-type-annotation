@@ -1,5 +1,11 @@
 # @platforma-open/milaboratories.cell-type-annotation.software
 
+## 1.3.5
+
+### Patch Changes
+
+- 388b228: Improve performance
+
 ## 1.3.4
 
 ### Patch Changes
