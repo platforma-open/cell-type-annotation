@@ -12,9 +12,6 @@ catalogs:
     '@milaboratories/graph-maker':
       specifier: ^1.1.199
       version: 1.1.199
-    '@milaboratories/software-pframes-conv':
-      specifier: ^2.2.9
-      version: 2.2.9
     '@milaboratories/ts-builder':
       specifier: 1.6.2
       version: 1.6.2
@@ -30,9 +27,6 @@ catalogs:
     '@platforma-open/milaboratories.runenv-python-3':
       specifier: ^1.7.5
       version: 1.7.5
-    '@platforma-open/milaboratories.software-small-binaries':
-      specifier: ^1.15.23
-      version: 1.15.23
     '@platforma-sdk/block-tools':
       specifier: 2.13.0
       version: 2.13.0
@@ -220,18 +214,12 @@ importers:
         specifier: 'catalog:'
         version: 6.8.2
     devDependencies:
-      '@milaboratories/software-pframes-conv':
-        specifier: 'catalog:'
-        version: 2.2.9
       '@platforma-open/milaboratories.celltypist-assets':
         specifier: 'catalog:'
         version: 1.1.0
       '@platforma-open/milaboratories.gene-annotations-assets':
         specifier: 'catalog:'
         version: 1.1.0
-      '@platforma-open/milaboratories.software-small-binaries':
-        specifier: 'catalog:'
-        version: 1.15.23
       '@platforma-sdk/tengo-builder':
         specifier: 'catalog:'
         version: 4.0.22
@@ -1876,59 +1864,20 @@ packages:
   '@platforma-open/milaboratories.software-ptexter@1.2.4':
     resolution: {integrity: sha512-4ZqhqksSNVKWhEB9WwrL0rU89G+00ulzH1urYyNA4EdBVGA4mwbKbw0K/zcwce/oUYYMdRl+epXmr0w9wHyNzA==}
 
-  '@platforma-open/milaboratories.software-small-binaries.guided-command@1.1.1':
-    resolution: {integrity: sha512-UPhSOP43GAL+gQVPlE/2ymjuOiYVojhmDad1moS4SI+t6IDF9QgnAj5I7V8eP2P2x0oSY5apgjg4EeUiGBrIkw==}
-
   '@platforma-open/milaboratories.software-small-binaries.hello-world-py@1.0.10':
     resolution: {integrity: sha512-16BGRLIrsVW+YIaXwWLX6Nbm80PS5mQJEclHhjNbRrRTLHPaKI4RygZfBC0lLNzvHBiTXU4Qkh1+WmdovkshDg==}
-
-  '@platforma-open/milaboratories.software-small-binaries.hello-world-py@1.0.6':
-    resolution: {integrity: sha512-eYRjtkKkRFidVvsp3QEGpAOAaba15W0T7VrvM8X0QgNsHtSn1OYp7+THMqZf06zWbvJ1IVfjturQXUtpuv6UjQ==}
-
-  '@platforma-open/milaboratories.software-small-binaries.hello-world@1.1.1':
-    resolution: {integrity: sha512-XPf/+HeXgPMKJU/BdxxTMgV11LHyktm72Y2GWjqT2wa3ZYUeiwLuCvRHfgKIXtSC4qJnjDlgmdqQIzldnlWG6g==}
 
   '@platforma-open/milaboratories.software-small-binaries.hello-world@1.1.7':
     resolution: {integrity: sha512-CqXbfFld2l6Y/8rtcZXRPsa5kqNnaS3QWUxrcfMYwNxultbhLzjZGdqSR7ejV9xRWilXpeg6DdZJIKF3+KDH8g==}
 
-  '@platforma-open/milaboratories.software-small-binaries.java-stub@1.0.4':
-    resolution: {integrity: sha512-nr0H+TZDKUR7dpxY5Q5Gh1FOT9Jx4Sr0Uk6jO2I18jJaOPchEPY+gOxemPJO30SNkkkbQiIRBBJYF54tMFiesA==}
-
   '@platforma-open/milaboratories.software-small-binaries.line-counter@1.1.1':
     resolution: {integrity: sha512-3bqn2ZK/dV5IR0Zp678Ea9lGSHjLvfRv4lyRBYXZNO1mMWIlEhtT0bmn6FhNzBBj+MhTQfSRFnEsOejtfdN1Ew==}
-
-  '@platforma-open/milaboratories.software-small-binaries.mnz-client@1.6.1':
-    resolution: {integrity: sha512-4dJnBVFqxFgFznepUQAMJceWcJrGE2Ms5LH+2BMjG/qOFJpEAiWJlrjiobiapqf2jnJgxM1AcDVR9M67uGrySA==}
 
   '@platforma-open/milaboratories.software-small-binaries.mnz-client@1.6.5':
     resolution: {integrity: sha512-ZdVg77pZ0Hgvxdk+mYahEyPbcTzDyz6Y7qlm6A0rJw8WCYmDVkfLqctQj0QkTLHM76oSWOHJIgD07ZxORjjgwA==}
 
-  '@platforma-open/milaboratories.software-small-binaries.python-stub@1.0.4':
-    resolution: {integrity: sha512-5HjuYrvxvYNLo2M7EkhoQFlwPk6VxV2aoRY8PDU9cf0qyDIrdY6g/q4zRslZ6wWFhw/hTGsZ8CLXPGvdqiuCHw==}
-
-  '@platforma-open/milaboratories.software-small-binaries.read-with-sleep@1.1.1':
-    resolution: {integrity: sha512-6GFG8o+YzXngZNk9jyuBFgRCFybHZ67QHgpgtnwNXKWjaC627jEY9VxlmCtSQ7OL5V029wEern6QuNRoa0vGzQ==}
-
-  '@platforma-open/milaboratories.software-small-binaries.runenv-java-stub@1.0.6':
-    resolution: {integrity: sha512-KWbIs9QLBbhiy+IUwnlGdPXSr7Uhx51zePwkHclFwWAA8Pdj2eOXAN5Q+qFAb3pHWb84mBUlWNCu0BMxANKIJw==}
-
-  '@platforma-open/milaboratories.software-small-binaries.runenv-python-stub@1.0.7':
-    resolution: {integrity: sha512-F2qzS0bzcvMclW6dCiK/3y4qNwDrGdOqc4MsgZfOmMSte+TAny7ISvkJc1M4oiKsZ7e3SL9ALIG/l5vopVAEAQ==}
-
-  '@platforma-open/milaboratories.software-small-binaries.sleep@1.1.1':
-    resolution: {integrity: sha512-SuXYzYtYcd+PJtJwCtC/6m6qVT17RrIw5jkUfwfzTaPl8o7o7dEMLEQzkhCFc6rmUYqcyfyz4skxMNtSOl+QTA==}
-
-  '@platforma-open/milaboratories.software-small-binaries.small-asset@1.1.4':
-    resolution: {integrity: sha512-TH5wqnEdfAtzomwpUkJR9fNR548U9K5Wl8KrhkuGqTQh5yM66C5nCnvwUA/i+09WKdwCwDzSvs5reogV6Hqw5Q==}
-
-  '@platforma-open/milaboratories.software-small-binaries.table-converter@1.3.1':
-    resolution: {integrity: sha512-CFcYb/hbzQ1UiP4sMXnRUST+feUkQoRrc8/vXSaOfUZY0tKdEEJCas+huSZ04l2oUhMFAU2PSO8H91BSspfvQQ==}
-
   '@platforma-open/milaboratories.software-small-binaries.table-converter@1.3.5':
     resolution: {integrity: sha512-x6WOZ8S3uLXzmwliCF500hw7VQ4A9U3VBbESjJlPia26aU91FqB3ylKyH2fEyTiVw2wADlTYuui1tHX47iS5Lw==}
-
-  '@platforma-open/milaboratories.software-small-binaries@1.15.23':
-    resolution: {integrity: sha512-I1G2qEWALvNAJy9kOTXjryu0GvK+hvUCVPckNhGkFO/cGIsST7R7s9pm0exhG92PyuLFa5lwJFx/fgobqWUWNw==}
 
   '@platforma-open/milaboratories.software-small-binaries@2.1.1':
     resolution: {integrity: sha512-KN1PR7YgUUfx1dxh/TtcoWpSZbOXbRxXzQuJ505qHuXuE0spYwC7bXnvJsEYbEwRcPMa0foTrjBnPNORE4yr+Q==}
@@ -8823,54 +8772,15 @@ snapshots:
 
   '@platforma-open/milaboratories.software-ptexter@1.2.4': {}
 
-  '@platforma-open/milaboratories.software-small-binaries.guided-command@1.1.1': {}
-
   '@platforma-open/milaboratories.software-small-binaries.hello-world-py@1.0.10': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.hello-world-py@1.0.6': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.hello-world@1.1.1': {}
 
   '@platforma-open/milaboratories.software-small-binaries.hello-world@1.1.7': {}
 
-  '@platforma-open/milaboratories.software-small-binaries.java-stub@1.0.4': {}
-
   '@platforma-open/milaboratories.software-small-binaries.line-counter@1.1.1': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.mnz-client@1.6.1': {}
 
   '@platforma-open/milaboratories.software-small-binaries.mnz-client@1.6.5': {}
 
-  '@platforma-open/milaboratories.software-small-binaries.python-stub@1.0.4': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.read-with-sleep@1.1.1': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.runenv-java-stub@1.0.6': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.runenv-python-stub@1.0.7': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.sleep@1.1.1': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.small-asset@1.1.4': {}
-
-  '@platforma-open/milaboratories.software-small-binaries.table-converter@1.3.1': {}
-
   '@platforma-open/milaboratories.software-small-binaries.table-converter@1.3.5': {}
-
-  '@platforma-open/milaboratories.software-small-binaries@1.15.23':
-    dependencies:
-      '@platforma-open/milaboratories.software-small-binaries.guided-command': 1.1.1
-      '@platforma-open/milaboratories.software-small-binaries.hello-world': 1.1.1
-      '@platforma-open/milaboratories.software-small-binaries.hello-world-py': 1.0.6
-      '@platforma-open/milaboratories.software-small-binaries.java-stub': 1.0.4
-      '@platforma-open/milaboratories.software-small-binaries.mnz-client': 1.6.1
-      '@platforma-open/milaboratories.software-small-binaries.python-stub': 1.0.4
-      '@platforma-open/milaboratories.software-small-binaries.read-with-sleep': 1.1.1
-      '@platforma-open/milaboratories.software-small-binaries.runenv-java-stub': 1.0.6
-      '@platforma-open/milaboratories.software-small-binaries.runenv-python-stub': 1.0.7
-      '@platforma-open/milaboratories.software-small-binaries.sleep': 1.1.1
-      '@platforma-open/milaboratories.software-small-binaries.small-asset': 1.1.4
-      '@platforma-open/milaboratories.software-small-binaries.table-converter': 1.3.1
 
   '@platforma-open/milaboratories.software-small-binaries@2.1.1':
     dependencies:

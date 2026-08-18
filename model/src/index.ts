@@ -1,5 +1,11 @@
 import type { GraphMakerState } from "@milaboratories/graph-maker";
-import type { InferOutputsType, PColumnIdAndSpec, PFrameHandle, PlRef } from "@platforma-sdk/model";
+import type {
+  InferOutputsType,
+  PColumnIdAndSpec,
+  PFrameHandle,
+  PlRef,
+  TreeNodeAccessor,
+} from "@platforma-sdk/model";
 import { BlockModel, isPColumn, isPColumnSpec } from "@platforma-sdk/model";
 
 export type UiState = {
@@ -15,7 +21,7 @@ export type BlockArgs = {
   model: string;
 };
 
-export const model = BlockModel.create()
+export const platforma = BlockModel.create()
 
   .withArgs<BlockArgs>({
     // cleanLabels: true,
@@ -53,7 +59,7 @@ export const model = BlockModel.create()
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
-      .filter(isPColumn)
+      .filter(isPColumn<TreeNodeAccessor>)
       .filter((col) => {
         return (
           col.spec.name === "pl7.app/rna-seq/umap1" ||
@@ -76,7 +82,7 @@ export const model = BlockModel.create()
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
-      .filter(isPColumn)
+      .filter(isPColumn<TreeNodeAccessor>)
       .filter((col) => {
         return (
           col.spec.name === "pl7.app/rna-seq/tsne1" ||
@@ -99,7 +105,7 @@ export const model = BlockModel.create()
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
-      .filter(isPColumn)
+      .filter(isPColumn<TreeNodeAccessor>)
       .filter((col) => {
         return (
           col.spec.name.slice(0, -1) === "pl7.app/rna-seq/tsne" ||
@@ -146,4 +152,4 @@ export const model = BlockModel.create()
 
   .done(2);
 
-export type BlockOutputs = InferOutputsType<typeof model>;
+export type BlockOutputs = InferOutputsType<typeof platforma>;
