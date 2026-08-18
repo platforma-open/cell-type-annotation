@@ -55,7 +55,7 @@ export const platforma = BlockModel.create()
     ),
   )
 
-  .output("UMAPPf", (ctx): PFrameHandle | undefined => {
+  .outputWithStatus("UMAPPf", (ctx): PFrameHandle | undefined => {
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
@@ -78,7 +78,7 @@ export const platforma = BlockModel.create()
     return ctx.createPFrame([...pCols, ...upstream]);
   })
 
-  .output("tSNEPf", (ctx): PFrameHandle | undefined => {
+  .outputWithStatus("tSNEPf", (ctx): PFrameHandle | undefined => {
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)

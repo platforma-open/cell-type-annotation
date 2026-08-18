@@ -15,7 +15,7 @@ jobs:
     uses: milaboratory/github-ci/.github/workflows/block-mark-stable.yaml@v4
     with:
       app-name: 'Block: Cell Type Annotation - Mark Stable'
-      node-version: '22.x'
+      node-version: '20.x'
       npmrc-config: |
         {
           "registries": {

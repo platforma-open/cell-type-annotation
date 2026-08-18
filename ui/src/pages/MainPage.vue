@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import "@milaboratories/graph-maker/styles";
 import { PlBlockPage, PlBtnGroup, PlDropdown, PlDropdownRef, PlTabs } from "@platforma-sdk/ui-vue";
 import { useApp } from "../app";
 
