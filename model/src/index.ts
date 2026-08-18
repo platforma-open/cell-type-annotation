@@ -1,15 +1,6 @@
-import type { GraphMakerState } from '@milaboratories/graph-maker';
-import type {
-  InferOutputsType,
-  PColumnIdAndSpec,
-  PFrameHandle,
-  PlRef,
-} from '@platforma-sdk/model';
-import {
-  BlockModel,
-  isPColumn,
-  isPColumnSpec,
-} from '@platforma-sdk/model';
+import type { GraphMakerState } from "@milaboratories/graph-maker";
+import type { InferOutputsType, PColumnIdAndSpec, PFrameHandle, PlRef } from "@platforma-sdk/model";
+import { BlockModel, isPColumn, isPColumnSpec } from "@platforma-sdk/model";
 
 export type UiState = {
   graphStateUMAP: GraphMakerState;
@@ -28,93 +19,96 @@ export const model = BlockModel.create()
 
   .withArgs<BlockArgs>({
     // cleanLabels: true,
-    mode: 'best match',
-    model: 'human-healthy-immunepopulations',
+    mode: "best match",
+    model: "human-healthy-immunepopulations",
   })
 
   .withUiState<UiState>({
     graphStateUMAP: {
-      title: 'UMAP',
-      template: 'dots',
-      currentTab: 'settings',
+      title: "UMAP",
+      template: "dots",
+      currentTab: "settings",
     },
     graphStateTSNE: {
-      title: 'tSNE',
-      template: 'dots',
+      title: "tSNE",
+      template: "dots",
       currentTab: null,
     },
   })
 
   .argsValid((ctx) => ctx.args.countsRef !== undefined)
 
-  .output('countsOptions', (ctx) =>
-    ctx.resultPool.getOptions((spec) => isPColumnSpec(spec)
-      && spec.name === 'pl7.app/rna-seq/countMatrix'
-      && spec.domain?.['pl7.app/rna-seq/normalized'] === 'false'
+  .output("countsOptions", (ctx) =>
+    ctx.resultPool.getOptions(
+      (spec) =>
+        isPColumnSpec(spec) &&
+        spec.name === "pl7.app/rna-seq/countMatrix" &&
+        spec.domain?.["pl7.app/rna-seq/normalized"] === "false",
       // && spec.annotations?.['pl7.app/hideDataFromGraphs'] === 'true'
-    , { includeNativeLabel: false, addLabelAsSuffix: true }),
+      { includeNativeLabel: false, addLabelAsSuffix: true },
+    ),
   )
 
-  .output('UMAPPf', (ctx): PFrameHandle | undefined => {
-    const pCols
-      = ctx.resultPool
-        .getData()
-        .entries.map((c) => c.obj)
-        .filter(isPColumn)
-        .filter((col) => {
-          return col.spec.name === 'pl7.app/rna-seq/umap1'
-            || col.spec.name === 'pl7.app/rna-seq/umap2'
-            || col.spec.name === 'pl7.app/rna-seq/umap3';
-        });
-
-    // enriching with cell type annotation data
-    const upstream
-      = ctx.outputs?.resolve('labels')?.getPColumns();
-
-    if (upstream === undefined) {
-      return undefined;
-    }
-
-    return ctx.createPFrame([...pCols, ...upstream]);
-  })
-
-  .output('tSNEPf', (ctx): PFrameHandle | undefined => {
-    const pCols
-      = ctx.resultPool
-        .getData()
-        .entries.map((c) => c.obj)
-        .filter(isPColumn)
-        .filter((col) => {
-          return col.spec.name === 'pl7.app/rna-seq/tsne1'
-            || col.spec.name === 'pl7.app/rna-seq/tsne2'
-            || col.spec.name === 'pl7.app/rna-seq/tsne3';
-        });
-
-    // enriching with cell type annotation data
-    const upstream
-      = ctx.outputs?.resolve('labels')?.getPColumns();
-
-    if (upstream === undefined) {
-      return undefined;
-    }
-
-    return ctx.createPFrame([...pCols, ...upstream]);
-  })
-
-  .output('plotPcols', (ctx) => {
-    const pCols
-    = ctx.resultPool
+  .output("UMAPPf", (ctx): PFrameHandle | undefined => {
+    const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
       .filter(isPColumn)
       .filter((col) => {
-        return ((col.spec.name.slice(0, -1) === 'pl7.app/rna-seq/tsne'
-          || col.spec.name.slice(0, -1) === 'pl7.app/rna-seq/umap'));
+        return (
+          col.spec.name === "pl7.app/rna-seq/umap1" ||
+          col.spec.name === "pl7.app/rna-seq/umap2" ||
+          col.spec.name === "pl7.app/rna-seq/umap3"
+        );
       });
 
     // enriching with cell type annotation data
-    const upstream
-    = ctx.outputs?.resolve('labels')?.getPColumns();
+    const upstream = ctx.outputs?.resolve("labels")?.getPColumns();
+
+    if (upstream === undefined) {
+      return undefined;
+    }
+
+    return ctx.createPFrame([...pCols, ...upstream]);
+  })
+
+  .output("tSNEPf", (ctx): PFrameHandle | undefined => {
+    const pCols = ctx.resultPool
+      .getData()
+      .entries.map((c) => c.obj)
+      .filter(isPColumn)
+      .filter((col) => {
+        return (
+          col.spec.name === "pl7.app/rna-seq/tsne1" ||
+          col.spec.name === "pl7.app/rna-seq/tsne2" ||
+          col.spec.name === "pl7.app/rna-seq/tsne3"
+        );
+      });
+
+    // enriching with cell type annotation data
+    const upstream = ctx.outputs?.resolve("labels")?.getPColumns();
+
+    if (upstream === undefined) {
+      return undefined;
+    }
+
+    return ctx.createPFrame([...pCols, ...upstream]);
+  })
+
+  .output("plotPcols", (ctx) => {
+    const pCols = ctx.resultPool
+      .getData()
+      .entries.map((c) => c.obj)
+      .filter(isPColumn)
+      .filter((col) => {
+        return (
+          col.spec.name.slice(0, -1) === "pl7.app/rna-seq/tsne" ||
+          col.spec.name.slice(0, -1) === "pl7.app/rna-seq/umap"
+        );
+      });
+
+    // enriching with cell type annotation data
+    const upstream = ctx.outputs?.resolve("labels")?.getPColumns();
 
     if (upstream === undefined) {
       return undefined;
@@ -122,9 +116,13 @@ export const model = BlockModel.create()
 
     // Return batch corrected UMAP/tSNE if present
     let finalPcols = [];
-    const batchCorrected = pCols.filter((col) => col.spec.domain?.['pl7.app/rna-seq/batch-corrected'] === 'true');
+    const batchCorrected = pCols.filter(
+      (col) => col.spec.domain?.["pl7.app/rna-seq/batch-corrected"] === "true",
+    );
     if (batchCorrected.length !== 0) {
-      finalPcols = pCols.filter((col) => col.spec.domain?.['pl7.app/rna-seq/batch-corrected'] !== 'false');
+      finalPcols = pCols.filter(
+        (col) => col.spec.domain?.["pl7.app/rna-seq/batch-corrected"] !== "false",
+      );
     } else {
       finalPcols = pCols;
     }
@@ -134,20 +132,16 @@ export const model = BlockModel.create()
         ({
           columnId: c.id,
           spec: c.spec,
-        } satisfies PColumnIdAndSpec),
+        }) satisfies PColumnIdAndSpec,
     );
   })
 
-  .output('isRunning', (ctx) => ctx.outputs?.getIsReadyOrError() === false)
+  .output("isRunning", (ctx) => ctx.outputs?.getIsReadyOrError() === false)
 
-  .sections((_ctx) => ([
-    { type: 'link', href: '/', label: 'Main' },
-  ]))
+  .sections((_ctx) => [{ type: "link", href: "/", label: "Main" }])
 
   .title((ctx) =>
-    ctx.args.title
-      ? `Cell Type Annotation - ${ctx.args.title}`
-      : 'Cell Type Annotation',
+    ctx.args.title ? `Cell Type Annotation - ${ctx.args.title}` : "Cell Type Annotation",
   )
 
   .done(2);
