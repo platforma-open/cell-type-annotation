@@ -28,19 +28,27 @@ wf.body(func(args) {
 	mode := args.mode
 	// cleanLabels := args.cleanLabels
 
-	// Set default conversion memory and CPU
+	// Set default conversion memory and CPU for the labels import
+	// (one row per cell - orders of magnitude smaller than the counts matrix).
 	defaultConvMem := "16GiB" // @TODO: set based on the size of the input
 	defaultConvCpu := 1       // @TODO: set based on the size of the input
 
-	csvCounts := xsv.exportFrame([rawCounts], "csv", { mem: defaultConvMem, cpu: defaultConvCpu })
+	// The counts export is the heaviest conversion in the block: the long-format counts p-column
+	// holds one row per non-zero (cell, gene) pair, which reaches hundreds of millions of rows on
+	// real datasets. Parquet keeps it columnar and streams through sink_parquet, instead of paying
+	// CSV text encoding for three high-cardinality string columns.
+	countsConvMem := "32GiB" // @TODO: set based on the size of the input
+	countsConvCpu := 4       // @TODO: set based on the size of the input
+
+	countsParquet := xsv.exportFrame([rawCounts], "parquet", { mem: countsConvMem, cpu: countsConvCpu })
 
 	cellTypeAnnotationRender := render.create(cellTypeAnnotationTpl, {
-		csvCounts: csvCounts,
+		countsParquet: countsParquet,
 		model: args.model,
 		species: species,
 		mode: mode,
-		mem: "16GiB",
-		cpu: 1
+		mem: "32GiB",
+		cpu: 4
 	})
 
 	labelImportParams := pfCellAnnotations.getColumns(blockId, inputSpec)

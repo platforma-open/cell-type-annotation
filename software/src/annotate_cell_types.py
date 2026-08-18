@@ -22,23 +22,22 @@ def load_data_long_format(file_path, gene_map_path=None):
     Optionally map Ensembl IDs to gene symbols using a mapping file.
     """
     log_message("Loading counts with Polars and Categorical optimization", "STEP")
-    
+
     # Peek schema to handle flexible headers and identify columns for Categorical casting
-    temp_scan = pl.scan_csv(file_path)
+    temp_scan = pl.scan_parquet(file_path)
     file_schema = temp_scan.collect_schema()
     column_names = set(file_schema.keys())
 
-    schema_overrides = {
-        "Sample": pl.Categorical,
-        "Ensembl Id": pl.Categorical,
-        "Cell Barcode": pl.Categorical,
-        "Cell ID": pl.Categorical,
-        "CellId": pl.Categorical
-    }
-    # Only apply overrides for columns that actually exist in the file
-    schema_overrides = {k: v for k, v in schema_overrides.items() if k in column_names}
-    
-    df_pl = pl.read_csv(file_path, schema_overrides=schema_overrides)
+    # Pick the repeated string columns worth holding as categoricals. Parquet carries its own
+    # dtypes, so the cast rides in the scan plan instead of going through schema_overrides.
+    categorical_candidates = ["Sample", "Ensembl Id", "Cell Barcode", "Cell ID", "CellId"]
+    categorical_columns = [col for col in categorical_candidates if col in column_names]
+
+    log_message(f"Reading Parquet with categorical types for: {categorical_columns}", "STEP")
+
+    df_pl = temp_scan.with_columns(
+        [pl.col(col).cast(pl.Categorical) for col in categorical_columns]
+    ).collect()
 
     # Normalize minimal expected headers
     if "Cell Barcode" not in df_pl.columns:
@@ -164,7 +163,7 @@ def save_results(adata, output_csv):
 
 def main():
     parser = argparse.ArgumentParser(description="Offline CellTypist annotation for scRNA-seq data in long format.")
-    parser.add_argument("input_csv", help="Path to raw counts CSV file (long format)")
+    parser.add_argument("input_csv", help="Path to long-format raw counts Parquet file")
     parser.add_argument("output_csv", help="Path to save annotated results")
     parser.add_argument("model_path", help="Path to CellTypist .pkl model")
     parser.add_argument("--gene_map", help="Optional gene mapping CSV (Ensembl Id → Gene symbol)", default=None)

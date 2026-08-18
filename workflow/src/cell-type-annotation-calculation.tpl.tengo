@@ -9,7 +9,7 @@ self.defineOutputs("labelsCsv")
 
 self.body(func(args) {
     // Input parameters
-    csvCounts := args.csvCounts
+    countsParquet := args.countsParquet
     model := args.model
     species := args.species
     mode := args.mode
@@ -27,10 +27,10 @@ self.body(func(args) {
         software(assets.importSoftware("@platforma-open/milaboratories.cell-type-annotation.software:annotate-cell-types")).
         mem(mem).
         cpu(cpu).
-        addFile("rawCounts.csv", csvCounts).
+        addFile("rawCounts.parquet", countsParquet).
         addAsset(modelAsset, "model", string(modelName)).
         addAsset(geneAsset, "geneAnnotation", string(geneAssetName)).
-        arg("rawCounts.csv").
+        arg("rawCounts.parquet").
         arg("labels.csv").
         arg("model/" + string(modelName)).
         arg("--gene_map").arg("geneAnnotation/" + string(geneAssetName)).
