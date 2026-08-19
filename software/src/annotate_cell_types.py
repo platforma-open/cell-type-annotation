@@ -4,6 +4,7 @@ import scanpy as sc
 import celltypist
 from celltypist import models
 import argparse
+import gc
 import os
 import numpy as np
 import time
@@ -119,7 +120,24 @@ def load_data_long_format(file_path, gene_map_path=None):
 
     return adata
 
-def annotate_cells(adata, model_path, mode="best match", clean_labels=True):
+DEFAULT_CHUNK_SIZE = 50000
+
+def _predict(adata, model, majority_voting):
+    """
+    Run CellTypist and return (labels, confidence scores) for the given AnnData.
+
+    Reads AnnotationResult directly instead of going through to_adata(): we only need two
+    columns, and this keeps the chunked path below free of any per-chunk AnnData bookkeeping.
+    Note this preserves the existing behaviour of reporting the per-cell `predicted_labels`
+    even when majority voting is on.
+    """
+    result = celltypist.annotate(adata, model, majority_voting=majority_voting)
+    labels = result.predicted_labels["predicted_labels"]
+    conf = result.probability_matrix.max(axis=1)
+    return labels.to_numpy(), conf.to_numpy()
+
+def annotate_cells(adata, model_path, mode="best match", clean_labels=True,
+                   chunk_size=DEFAULT_CHUNK_SIZE):
     """
     Annotate cells using CellTypist (v1.6.3) and extract confidence scores.
     """
@@ -129,26 +147,45 @@ def annotate_cells(adata, model_path, mode="best match", clean_labels=True):
     log_message(f"Loading model from: {model_path}", "STEP")
     model = models.Model.load(model_path)
 
-    log_message(f"Annotating cells using mode: {mode}", "STEP")
-    result = celltypist.annotate(
-        adata,
-        model,
-        majority_voting=(mode == "majority voting")
-    )
+    majority_voting = (mode == "majority voting")
 
-    # Convert to AnnData to get confidence scores and predicted labels
-    log_message("Extracting labels and confidence scores", "STEP")
-    annotated = result.to_adata(insert_labels=True, insert_conf=True)
+    if majority_voting or chunk_size <= 0 or adata.n_obs <= chunk_size:
+        # Majority voting over-clusters the whole dataset through a global neighbour graph, so
+        # its cells cannot be split without changing the result. Small inputs skip chunking too.
+        log_message(f"Annotating {adata.n_obs} cells using mode: {mode}", "STEP")
+        label_values, conf_values = _predict(adata, model, majority_voting)
+    else:
+        # CellTypist scales the input by subtracting a dense mean vector from the sparse matrix
+        # (classifier.py: `(self.indata[:, k_x_idx] - means_) / sds_`), which densifies it to
+        # n_cells x n_model_features float64 - ~45 GB at 500k cells for a 5.6k-feature model -
+        # and there is no chunking on its prediction path. Feeding it fixed-size cell batches
+        # bounds that allocation; "best match" predicts each cell independently, so the labels
+        # and confidence scores are identical to annotating in one shot.
+        log_message(
+            f"Annotating {adata.n_obs} cells using mode: {mode} "
+            f"(in chunks of {chunk_size} to bound peak memory)", "STEP")
+        label_chunks = []
+        conf_chunks = []
+        for start in range(0, adata.n_obs, chunk_size):
+            end = min(start + chunk_size, adata.n_obs)
+            log_message(f"Annotating cells {start}-{end} of {adata.n_obs}")
+            chunk = adata[start:end].copy()
+            chunk_labels, chunk_conf = _predict(chunk, model, majority_voting=False)
+            label_chunks.append(chunk_labels)
+            conf_chunks.append(chunk_conf)
+            del chunk
+            gc.collect()
+        label_values = np.concatenate(label_chunks)
+        conf_values = np.concatenate(conf_chunks)
 
     # Optionally clean the labels
-    labels = annotated.obs["predicted_labels"]
+    labels = pd.Series(label_values, index=adata.obs_names, dtype="object")
     if clean_labels:
         log_message("Cleaning label formatting (removing leading numbers)", "STEP")
         labels = labels.str.replace(r"^\d+\s+", "", regex=True)
 
-    # Add cleaned metadata back to original adata
     adata.obs["Cell type"] = labels.values
-    adata.obs["Confidence score"] = annotated.obs["conf_score"].values
+    adata.obs["Confidence score"] = conf_values
 
     log_message("Annotation complete", "DONE")
     return adata
@@ -171,11 +208,13 @@ def main():
                         help="Annotation strategy (default: best match)")
     parser.add_argument("--clean_labels", type=lambda x: x.lower() in ["true", "1", "yes"], default=True,
                         help="Remove leading numbers in cell type labels (default: True)")
+    parser.add_argument("--chunk_size", type=int, default=DEFAULT_CHUNK_SIZE,
+                        help=f"Cells per annotation batch; 0 disables batching (default: {DEFAULT_CHUNK_SIZE})")
 
     args = parser.parse_args()
 
     adata = load_data_long_format(args.input_csv, args.gene_map)
-    adata = annotate_cells(adata, args.model_path, args.mode, args.clean_labels)
+    adata = annotate_cells(adata, args.model_path, args.mode, args.clean_labels, args.chunk_size)
     save_results(adata, args.output_csv)
 
 if __name__ == "__main__":
