@@ -27,15 +27,15 @@ def log_message(message, status="INFO"):
     """
     Logs messages in a structured format, with peak RSS so far.
 
-    flush=True is load-bearing: stdout is a redirected file rather than a tty, so Python
-    block-buffers it. When the container is OOM-killed the buffer dies with the process and
-    the runner surfaces "no output was saved to logs", which leaves a failure with no
-    indication of which step it died in. The entrypoint also runs `python -u`.
+    Writes to stderr, not stdout. On failure the runner tails a single file, and it prefers
+    stderr over stdout (pl `collectLastLogLines`: StdErr -> StdLog -> StdOut), so progress
+    logged to stdout is invisible in the error report. flush=True and the entrypoint's
+    `python -u` keep the tail current when the container is killed mid-run.
     """
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
     rss = _rss_gb()
     peak = f" [peak RSS {rss:.2f} GiB]" if rss is not None else ""
-    print(f"[{timestamp}] [{status}] {message}{peak}", flush=True)
+    print(f"[{timestamp}] [{status}] {message}{peak}", file=sys.stderr, flush=True)
 
 def load_data_long_format(file_path, gene_map_path=None):
     """
