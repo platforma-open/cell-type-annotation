@@ -73,55 +73,72 @@ def load_data_long_format(file_path, gene_map_path=None):
         missing = list(required_cols - set(df_pl.columns))
         raise ValueError(f"Input file must contain columns: {required_cols}. Missing: {missing}")
 
-    # Map Ensembl IDs to gene symbols if provided
+    SEPARATOR = "|||"
+
+    # Everything below works on the categoricals' integer codes rather than on their strings.
+    # At 243M rows the string-shaped version of this cost ~10 GiB for the gene-symbol join and
+    # then died building UniqueCellId: `Sample.cast(str) + sep + Cell Barcode.cast(str)`
+    # re-materialises full strings for every row before casting back to Categorical. Codes are
+    # 4 bytes/row and the string work happens once per distinct value instead of once per row.
+    sample_codes = np.array(df_pl["Sample"].to_physical().to_numpy(), copy=True)
+    barcode_codes = np.array(df_pl["Cell Barcode"].to_physical().to_numpy(), copy=True)
+    gene_codes = np.array(df_pl["Ensembl Id"].to_physical().to_numpy(), copy=True)
+    expression_values = np.array(
+        df_pl["Raw gene expression"].cast(pl.Float32).to_numpy(), copy=True)
+
+    sample_categories = df_pl["Sample"].cat.get_categories().to_numpy()
+    barcode_categories = df_pl["Cell Barcode"].cat.get_categories().to_numpy()
+    gene_categories = df_pl["Ensembl Id"].cat.get_categories().to_list()
+
+    # Release the long frame before the remapping stage; it is the single largest allocation.
+    del df_pl
+    gc.collect()
+    log_message("Long-format frame released, remapping on integer codes", "STEP")
+
+    # Gene axis: resolve symbols once per distinct Ensembl Id (tens of thousands) instead of
+    # joining the mapping against every row. The annotation table is 1:1 on Ensembl Id, so a
+    # lookup is equivalent to the left join, and a missing or null symbol falls back to the
+    # Ensembl Id exactly as fill_null did.
     if gene_map_path:
         log_message(f"Mapping Ensembl IDs to gene symbols from {gene_map_path}", "STEP")
         gene_map = pl.read_csv(gene_map_path).select(["Ensembl Id", "Gene symbol"]).unique()
-        # Cast mapping columns to categorical to match main dataframe
-        gene_map = gene_map.with_columns([
-            pl.col("Ensembl Id").cast(pl.Categorical),
-            pl.col("Gene symbol").cast(pl.Categorical)
-        ])
-        # Use left join to avoid data loss before normalization
-        df_pl = df_pl.join(gene_map, on="Ensembl Id", how="left")
-        # Ensure every gene has a name, falling back to Ensembl Id if Symbol is missing
-        df_pl = df_pl.with_columns(pl.col("Gene symbol").fill_null(pl.col("Ensembl Id")))
-        gene_col = "Gene symbol"
+        symbol_by_id = dict(zip(gene_map["Ensembl Id"].to_list(),
+                                gene_map["Gene symbol"].to_list()))
+        gene_names = np.array(
+            [g if symbol_by_id.get(g) is None else symbol_by_id[g] for g in gene_categories],
+            dtype=object)
         log_message("Gene symbol mapping applied", "DONE")
     else:
-        gene_col = "Ensembl Id"
+        gene_names = np.array(gene_categories, dtype=object)
 
-    # Create a unique identifier for each cell (using established SEPARATOR)
-    SEPARATOR = '|||'
-    df_pl = df_pl.with_columns(
-        (pl.col('Sample').cast(str) + pl.lit(SEPARATOR) + pl.col('Cell Barcode').cast(str))
-        .cast(pl.Categorical)
-        .alias('UniqueCellId')
-    )
+    used_gene_phys, gene_idx = np.unique(gene_codes, return_inverse=True)
+    del gene_codes
+    unique_gene_ids, gene_ranks = np.unique(gene_names[used_gene_phys], return_inverse=True)
+    col_codes = gene_ranks[gene_idx].astype(np.int32)
+    del gene_idx, gene_ranks, used_gene_phys
+    gc.collect()
 
+    # Cell axis: pair the two categorical codes into one integer key, then build the label
+    # strings only for the distinct pairs that actually occur.
     log_message("Building unique cell identifiers", "STEP")
-    
-    # Extract integer codes directly from categorical columns
-    row_codes_raw = df_pl['UniqueCellId'].to_physical().to_numpy()
-    col_codes_raw = df_pl[gene_col].to_physical().to_numpy()
-    # Use float32 for expression values (Scanpy standard)
-    expression_values = df_pl['Raw gene expression'].cast(pl.Float32).to_numpy()
+    n_barcodes = len(barcode_categories)
+    pair_codes = sample_codes.astype(np.int64) * n_barcodes + barcode_codes.astype(np.int64)
+    del sample_codes, barcode_codes
+    gc.collect()
 
-    # Remap codes to 0-indexed contiguous using np.unique (efficient integer-based mapping)
-    u_row_phys, row_idx = np.unique(row_codes_raw, return_inverse=True)
-    u_col_phys, col_idx = np.unique(col_codes_raw, return_inverse=True)
+    used_pairs, pair_idx = np.unique(pair_codes, return_inverse=True)
+    del pair_codes
+    gc.collect()
 
-    # Map labels to sorted ranks and get sorted unique IDs (efficiently processing only unique labels)
-    unique_cell_ids, row_map = np.unique(df_pl['UniqueCellId'].cat.get_categories().gather(u_row_phys).to_numpy(), return_inverse=True)
-    unique_gene_ids, col_map = np.unique(df_pl[gene_col].cat.get_categories().gather(u_col_phys).to_numpy(), return_inverse=True)
+    pair_labels = np.array(
+        [f"{sample_categories[p // n_barcodes]}{SEPARATOR}{barcode_categories[p % n_barcodes]}"
+         for p in used_pairs],
+        dtype=object)
+    unique_cell_ids, cell_ranks = np.unique(pair_labels, return_inverse=True)
+    row_codes = cell_ranks[pair_idx].astype(np.int32)
+    del pair_idx, cell_ranks, used_pairs, pair_labels
+    gc.collect()
 
-    # Final row and column codes are the mapped indices
-    row_codes = row_map[row_idx].astype(np.int32)
-    col_codes = col_map[col_idx].astype(np.int32)
-
-    # Delete Polars objects to free memory
-    del df_pl, row_codes_raw, col_codes_raw, u_row_phys, u_col_phys, row_idx, col_idx, row_map, col_map
-    
     # Pre-populate obs with Sample and Cell Barcode vectorially for efficient processing
     obs_df = pd.DataFrame(index=unique_cell_ids)
     split_ids = pd.Series(unique_cell_ids).str.split(SEPARATOR, n=1, expand=True, regex=False)
