@@ -56,6 +56,17 @@ export const platforma = BlockModel.create()
   )
 
   .outputWithStatus("UMAPPf", (ctx): PFrameHandle | undefined => {
+    // Guard on this block's own result first. ctx.resultPool.getData() subscribes to every
+    // data resource in the pool up-front, and any still-resolving upstream makes that read
+    // unstable — which the wrapped output reports as `stable: false` and GraphMaker renders
+    // as a running state. Reading it before the guard flashed "Running" on dataset selection
+    // even though this block had never been run.
+    const labels = ctx.outputs?.resolve("labels")?.getPColumns();
+    if (labels === undefined) {
+      return undefined;
+    }
+
+    // enriching with the embedding coordinates from the result pool
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
@@ -68,17 +79,21 @@ export const platforma = BlockModel.create()
         );
       });
 
-    // enriching with cell type annotation data
-    const upstream = ctx.outputs?.resolve("labels")?.getPColumns();
-
-    if (upstream === undefined) {
-      return undefined;
-    }
-
-    return ctx.createPFrame([...pCols, ...upstream]);
+    return ctx.createPFrame([...pCols, ...labels]);
   })
 
   .outputWithStatus("tSNEPf", (ctx): PFrameHandle | undefined => {
+    // Guard on this block's own result first. ctx.resultPool.getData() subscribes to every
+    // data resource in the pool up-front, and any still-resolving upstream makes that read
+    // unstable — which the wrapped output reports as `stable: false` and GraphMaker renders
+    // as a running state. Reading it before the guard flashed "Running" on dataset selection
+    // even though this block had never been run.
+    const labels = ctx.outputs?.resolve("labels")?.getPColumns();
+    if (labels === undefined) {
+      return undefined;
+    }
+
+    // enriching with the embedding coordinates from the result pool
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
@@ -91,17 +106,21 @@ export const platforma = BlockModel.create()
         );
       });
 
-    // enriching with cell type annotation data
-    const upstream = ctx.outputs?.resolve("labels")?.getPColumns();
-
-    if (upstream === undefined) {
-      return undefined;
-    }
-
-    return ctx.createPFrame([...pCols, ...upstream]);
+    return ctx.createPFrame([...pCols, ...labels]);
   })
 
   .output("plotPcols", (ctx) => {
+    // Guard on this block's own result first. ctx.resultPool.getData() subscribes to every
+    // data resource in the pool up-front, and any still-resolving upstream makes that read
+    // unstable — which the wrapped output reports as `stable: false` and GraphMaker renders
+    // as a running state. Reading it before the guard flashed "Running" on dataset selection
+    // even though this block had never been run.
+    const labels = ctx.outputs?.resolve("labels")?.getPColumns();
+    if (labels === undefined) {
+      return undefined;
+    }
+
+    // enriching with the embedding coordinates from the result pool
     const pCols = ctx.resultPool
       .getData()
       .entries.map((c) => c.obj)
@@ -112,13 +131,6 @@ export const platforma = BlockModel.create()
           col.spec.name.slice(0, -1) === "pl7.app/rna-seq/umap"
         );
       });
-
-    // enriching with cell type annotation data
-    const upstream = ctx.outputs?.resolve("labels")?.getPColumns();
-
-    if (upstream === undefined) {
-      return undefined;
-    }
 
     // Return batch corrected UMAP/tSNE if present
     let finalPcols = [];
@@ -133,7 +145,7 @@ export const platforma = BlockModel.create()
       finalPcols = pCols;
     }
 
-    return [...finalPcols, ...upstream].map(
+    return [...finalPcols, ...labels].map(
       (c) =>
         ({
           columnId: c.id,

@@ -21,3 +21,11 @@ so the placeholder and the wrapped output have to move as a pair.
 - ui: `defineApp` now wires `progress: () => app.model.outputs.isRunning` and
   `showErrorsNotification: true`. The `isRunning` output already existed but nothing consumed it,
   so the block-level running indicator never lit up.
+
+Also fixes a spurious "Running" flash on dataset selection. The three outputs that feed the graph
+page read `ctx.resultPool.getData()` *before* guarding on this block's own `labels` output.
+`getData()` subscribes to every data resource in the pool up-front (the SDK deprecates it for
+exactly this reason), so any still-resolving upstream made the read unstable, the wrapped output
+reported `stable: false`, and GraphMaker rendered a running state — for a block that had never been
+run. Hoisting the own-output guard above the pool read, as `dimensionality-reduction` already does,
+means the pool is never touched until this block actually has a result.
