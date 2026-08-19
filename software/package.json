@@ -33,6 +33,7 @@
           },
           "cmd": [
             "python",
+            "-u",
             "{pkg}/annotate_cell_types.py"
           ]
         }

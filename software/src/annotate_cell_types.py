@@ -6,16 +6,36 @@ from celltypist import models
 import argparse
 import gc
 import os
+import sys
 import numpy as np
 import time
 from scipy.sparse import csr_matrix
 
 np.random.seed(0)
 
+def _rss_gb():
+    """Resident set size in GiB, or None where the platform does not report it."""
+    try:
+        import resource
+        rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        # Linux reports kilobytes, macOS bytes.
+        return rss / (1024**2) if sys.platform != "darwin" else rss / (1024**3)
+    except Exception:
+        return None
+
 def log_message(message, status="INFO"):
-    """Logs messages in a structured format."""
+    """
+    Logs messages in a structured format, with peak RSS so far.
+
+    flush=True is load-bearing: stdout is a redirected file rather than a tty, so Python
+    block-buffers it. When the container is OOM-killed the buffer dies with the process and
+    the runner surfaces "no output was saved to logs", which leaves a failure with no
+    indication of which step it died in. The entrypoint also runs `python -u`.
+    """
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[{timestamp}] [{status}] {message}")
+    rss = _rss_gb()
+    peak = f" [peak RSS {rss:.2f} GiB]" if rss is not None else ""
+    print(f"[{timestamp}] [{status}] {message}{peak}", flush=True)
 
 def load_data_long_format(file_path, gene_map_path=None):
     """
@@ -39,6 +59,7 @@ def load_data_long_format(file_path, gene_map_path=None):
     df_pl = temp_scan.with_columns(
         [pl.col(col).cast(pl.Categorical) for col in categorical_columns]
     ).collect()
+    log_message(f"Loaded {df_pl.height} rows x {df_pl.width} columns from {file_path}", "DONE")
 
     # Normalize minimal expected headers
     if "Cell Barcode" not in df_pl.columns:
@@ -66,6 +87,7 @@ def load_data_long_format(file_path, gene_map_path=None):
         # Ensure every gene has a name, falling back to Ensembl Id if Symbol is missing
         df_pl = df_pl.with_columns(pl.col("Gene symbol").fill_null(pl.col("Ensembl Id")))
         gene_col = "Gene symbol"
+        log_message("Gene symbol mapping applied", "DONE")
     else:
         gene_col = "Ensembl Id"
 
@@ -77,7 +99,7 @@ def load_data_long_format(file_path, gene_map_path=None):
         .alias('UniqueCellId')
     )
 
-    log_message("Creating sparse matrix from long format data", "STEP")
+    log_message("Building unique cell identifiers", "STEP")
     
     # Extract integer codes directly from categorical columns
     row_codes_raw = df_pl['UniqueCellId'].to_physical().to_numpy()
@@ -105,6 +127,10 @@ def load_data_long_format(file_path, gene_map_path=None):
     split_ids = pd.Series(unique_cell_ids).str.split(SEPARATOR, n=1, expand=True, regex=False)
     obs_df['Sample'] = split_ids[0].values
     obs_df['Cell Barcode'] = split_ids[1].values
+
+    log_message(
+        f"Creating sparse matrix: {len(unique_cell_ids)} cells x {len(unique_gene_ids)} genes",
+        "STEP")
 
     # Create the sparse matrix and AnnData object
     adata = sc.AnnData(
